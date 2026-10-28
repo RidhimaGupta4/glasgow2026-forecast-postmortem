@@ -14,7 +14,7 @@
 <br><br>
 
 <img src="https://img.shields.io/badge/python-3.13-3776ab?logo=python&logoColor=white" alt="Python 3.13">
-<img src="https://img.shields.io/badge/tests-42-2ea44f" alt="42 tests">
+<a href="https://github.com/RidhimaGupta4/glasgow2026-forecast-postmortem/actions/workflows/ci.yml"><img src="https://github.com/RidhimaGupta4/glasgow2026-forecast-postmortem/actions/workflows/ci.yml/badge.svg" alt="tests"></a>
 <img src="https://img.shields.io/badge/data-point--in--time-555555" alt="Point-in-time data">
 <img src="https://img.shields.io/badge/licence-MIT-blue" alt="MIT licence">
 
