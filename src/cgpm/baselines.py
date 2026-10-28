@@ -106,12 +106,20 @@ def population_gdp_model(pre: PreGamesData) -> PopGdpFit:
     pred = _features_for(pre, PREDICTION_GAMES)
     score = pred["log_pop"] * model.params["log_pop"] + pred["log_gdp"] * model.params["log_gdp"]
     score.name = "score"
-    coefs = pd.DataFrame({"estimate": model.params, "std_error": model.bse})
+    dispersion = float(model.pearson_chi2 / model.df_resid)
+    # Point estimates (all the ranking uses) are the same under Poisson and
+    # quasi-Poisson; quasi-Poisson standard errors are reported because the
+    # counts are over-dispersed.
+    coefs = pd.DataFrame({
+        "estimate": model.params,
+        "poisson_std_error": model.bse,
+        "quasi_poisson_std_error": model.bse * np.sqrt(dispersion),
+    })
     return PopGdpFit(
         ranks=rank_from_score(score),
         score=score,
         coefficients=coefs,
         training_rows=train,
         prediction_rows=pred,
-        pearson_dispersion=float(model.pearson_chi2 / model.df_resid),
+        pearson_dispersion=dispersion,
     )

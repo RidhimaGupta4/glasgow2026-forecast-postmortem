@@ -1,0 +1,4 @@
+,forecast_rank,true_rank,error_places
+B1,6.0,5.0,1.0
+B1p,5.0,5.0,0.0
+B2,6.0,5.0,1.0

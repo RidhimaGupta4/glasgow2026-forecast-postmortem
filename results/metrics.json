@@ -1,0 +1,1240 @@
+{
+  "n_nations": 74,
+  "n_pairs": 2701,
+  "tau_ceiling": 0.8282117734172528,
+  "pairs_tied_in_truth": 464,
+  "zero_medal_nations": 29,
+  "original_supplied": false,
+  "n_boot": 10000,
+  "seed_boot": 20260722,
+  "n_perm": 10000,
+  "seed_perm": 20260723,
+  "b2_training_rows": 143,
+  "b2_pearson_dispersion": 2.5593688298761488,
+  "b2_imputed_gdp_2026": [
+    "Norfolk Island",
+    "Saint Helena"
+  ],
+  "scores": {
+    "B0": {
+      "label": "B0 default entry (all tied)",
+      "tau": 0.0,
+      "ci95_low": 0.0,
+      "ci95_high": 0.0,
+      "share_of_ceiling": 0.0,
+      "tau_b_reference": NaN,
+      "permutation_p": NaN,
+      "pairs": 2701,
+      "concordant": 0,
+      "discordant": 0,
+      "tied_in_truth": 464,
+      "tied_in_forecast_only": 2237
+    },
+    "B1": {
+      "label": "B1 Birmingham 2022 carried forward",
+      "tau": 0.5879303961495742,
+      "ci95_low": 0.46761913373403624,
+      "ci95_high": 0.6953939621440262,
+      "share_of_ceiling": 0.7098793026374609,
+      "tau_b_reference": 0.7127526733770757,
+      "permutation_p": 9.999000099990002e-05,
+      "pairs": 2701,
+      "concordant": 1804,
+      "discordant": 216,
+      "tied_in_truth": 464,
+      "tied_in_forecast_only": 217
+    },
+    "B1p": {
+      "label": "B1p 2022, 2026-programme sports only",
+      "tau": 0.584598296927064,
+      "ci95_low": 0.4657173630759596,
+      "ci95_high": 0.6900891279299088,
+      "share_of_ceiling": 0.7058560572194904,
+      "tau_b_reference": 0.7138792298427676,
+      "permutation_p": 9.999000099990002e-05,
+      "pairs": 2701,
+      "concordant": 1795,
+      "discordant": 216,
+      "tied_in_truth": 464,
+      "tied_in_forecast_only": 226
+    },
+    "B2": {
+      "label": "B2 population + GDP model",
+      "tau": 0.4239170677526842,
+      "ci95_low": 0.2780836376338544,
+      "ci95_high": 0.5583398012407718,
+      "share_of_ceiling": 0.5118462226195798,
+      "tau_b_reference": 0.4658114960294345,
+      "permutation_p": 9.999000099990002e-05,
+      "pairs": 2701,
+      "concordant": 1691,
+      "discordant": 546,
+      "tied_in_truth": 464,
+      "tied_in_forecast_only": 0
+    }
+  },
+  "differences": {
+    "B1p - B1": {
+      "difference": -0.0033320992225102097,
+      "ci95_low": -0.026316036895548355,
+      "ci95_high": 0.019880156483773805,
+      "share_of_resamples_above_zero": 0.3756,
+      "verdict": "not distinguishable"
+    },
+    "B1 - B2": {
+      "difference": 0.16401332839689003,
+      "ci95_low": 0.04321480948027317,
+      "ci95_high": 0.28844855607215103,
+      "share_of_resamples_above_zero": 0.9951,
+      "verdict": "B1 beats B2"
+    },
+    "B1p - B2": {
+      "difference": 0.16068122917437982,
+      "ci95_low": 0.03828577969583218,
+      "ci95_high": 0.2879712024145983,
+      "share_of_resamples_above_zero": 0.9947,
+      "verdict": "B1p beats B2"
+    }
+  },
+  "b1_to_b1p_pair_changes": {
+    "discordant_to_concordant": 20,
+    "concordant_to_discordant": 27,
+    "tied_to_concordant": 2,
+    "tied_to_discordant": 2,
+    "concordant_to_tied": 4,
+    "discordant_to_tied": 9
+  },
+  "b2_coefficients": {
+    "games_2018": {
+      "estimate": -18.59577464873215,
+      "poisson_std_error": 0.6772926642496365,
+      "quasi_poisson_std_error": 1.0835346649096251
+    },
+    "games_2022": {
+      "estimate": -18.686467090022326,
+      "poisson_std_error": 0.6793197576709278,
+      "quasi_poisson_std_error": 1.086777614533792
+    },
+    "log_pop": {
+      "estimate": -0.3199598343839722,
+      "poisson_std_error": 0.03365834728703446,
+      "quasi_poisson_std_error": 0.05384671645524653
+    },
+    "log_gdp": {
+      "estimate": 0.9960717580909687,
+      "poisson_std_error": 0.03682711876234369,
+      "quasi_poisson_std_error": 0.05891612576662342
+    }
+  },
+  "scotland": {
+    "B1": {
+      "forecast_rank": 6.0,
+      "true_rank": 5.0,
+      "error_places": 1.0
+    },
+    "B1p": {
+      "forecast_rank": 5.0,
+      "true_rank": 5.0,
+      "error_places": 0.0
+    },
+    "B2": {
+      "forecast_rank": 6.0,
+      "true_rank": 5.0,
+      "error_places": 1.0
+    }
+  },
+  "historical_carry_forward": {
+    "2018": {
+      "forecast": "2014 table carried forward",
+      "nations": 71,
+      "tau": 0.5971830985915493,
+      "ceiling": 0.8398390342052314,
+      "share_of_ceiling": 0.7110685194058457
+    },
+    "2022": {
+      "forecast": "2018 table carried forward",
+      "nations": 72,
+      "tau": 0.5954616588419406,
+      "ceiling": 0.8345070422535211,
+      "share_of_ceiling": 0.7135489920300048
+    }
+  },
+  "host_gold_shares": {
+    "2014": {
+      "host": "Scotland",
+      "gold_share_previous_games": NaN,
+      "gold_share_home_games": 0.07279693486590039,
+      "gold_share_next_games": 0.03272727272727273
+    },
+    "2018": {
+      "host": "Australia",
+      "gold_share_previous_games": 0.18773946360153257,
+      "gold_share_home_games": 0.2909090909090909,
+      "gold_share_next_games": 0.2392857142857143
+    },
+    "2022": {
+      "host": "England",
+      "gold_share_previous_games": 0.16363636363636364,
+      "gold_share_home_games": 0.20714285714285716,
+      "gold_share_next_games": 0.13425925925925927
+    },
+    "2026": {
+      "host": "Scotland",
+      "gold_share_previous_games": 0.04642857142857143,
+      "gold_share_home_games": 0.06018518518518518,
+      "gold_share_next_games": NaN
+    }
+  },
+  "tiers": {
+    "B1": {
+      "within T1 top-10 in 2022": {
+        "pairs": 45,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 0.9111111111111111,
+        "contribution_to_overall_tau": 0.015179563124768604,
+        "max_possible_contribution": 0.016660496112550906,
+        "score_lost": 0.001480932987782303
+      },
+      "T1 top-10 in 2022 vs T2 other 2022 medallists": {
+        "pairs": 330,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 0.9818181818181818,
+        "contribution_to_overall_tau": 0.11995557201036654,
+        "max_possible_contribution": 0.12217697149203999,
+        "score_lost": 0.00222139948167345
+      },
+      "T1 top-10 in 2022 vs T3 no 2022 medal": {
+        "pairs": 310,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 1.0,
+        "contribution_to_overall_tau": 0.11477230655312846,
+        "max_possible_contribution": 0.11477230655312846,
+        "score_lost": 0.0
+      },
+      "within T2 other 2022 medallists": {
+        "pairs": 528,
+        "share_tied_in_truth": 0.06060606060606061,
+        "tau_within": 0.44886363636363635,
+        "contribution_to_overall_tau": 0.08774527952610145,
+        "max_possible_contribution": 0.18363569048500555,
+        "score_lost": 0.0958904109589041
+      },
+      "T2 other 2022 medallists vs T3 no 2022 medal": {
+        "pairs": 1023,
+        "share_tied_in_truth": 0.1652003910068426,
+        "tau_within": 0.6608015640273704,
+        "contribution_to_overall_tau": 0.2502776749352092,
+        "max_possible_contribution": 0.31617919289152163,
+        "score_lost": 0.06590151795631244
+      },
+      "within T3 no 2022 medal": {
+        "pairs": 465,
+        "share_tied_in_truth": 0.5655913978494623,
+        "tau_within": 0.0,
+        "contribution_to_overall_tau": 0.0,
+        "max_possible_contribution": 0.0747871158830063,
+        "score_lost": 0.0747871158830063
+      }
+    },
+    "B1p": {
+      "within T1 top-10 in 2022": {
+        "pairs": 45,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 0.7333333333333333,
+        "contribution_to_overall_tau": 0.012217697149203998,
+        "max_possible_contribution": 0.016660496112550906,
+        "score_lost": 0.004442798963346909
+      },
+      "T1 top-10 in 2022 vs T2 other 2022 medallists": {
+        "pairs": 330,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 0.9636363636363636,
+        "contribution_to_overall_tau": 0.11773417252869307,
+        "max_possible_contribution": 0.12217697149203999,
+        "score_lost": 0.004442798963346914
+      },
+      "T1 top-10 in 2022 vs T3 no 2022 medal": {
+        "pairs": 310,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 1.0,
+        "contribution_to_overall_tau": 0.11477230655312846,
+        "max_possible_contribution": 0.11477230655312846,
+        "score_lost": 0.0
+      },
+      "within T2 other 2022 medallists": {
+        "pairs": 528,
+        "share_tied_in_truth": 0.06060606060606061,
+        "tau_within": 0.4431818181818182,
+        "contribution_to_overall_tau": 0.08663457978526472,
+        "max_possible_contribution": 0.18363569048500555,
+        "score_lost": 0.09700111069974084
+      },
+      "T2 other 2022 medallists vs T3 no 2022 medal": {
+        "pairs": 1023,
+        "share_tied_in_truth": 0.1652003910068426,
+        "tau_within": 0.6686217008797654,
+        "contribution_to_overall_tau": 0.2532395409107738,
+        "max_possible_contribution": 0.31617919289152163,
+        "score_lost": 0.06293965198074786
+      },
+      "within T3 no 2022 medal": {
+        "pairs": 465,
+        "share_tied_in_truth": 0.5655913978494623,
+        "tau_within": 0.0,
+        "contribution_to_overall_tau": 0.0,
+        "max_possible_contribution": 0.0747871158830063,
+        "score_lost": 0.0747871158830063
+      }
+    },
+    "B2": {
+      "within T1 top-10 in 2022": {
+        "pairs": 45,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 0.6888888888888889,
+        "contribution_to_overall_tau": 0.011477230655312847,
+        "max_possible_contribution": 0.016660496112550906,
+        "score_lost": 0.005183265457238059
+      },
+      "T1 top-10 in 2022 vs T2 other 2022 medallists": {
+        "pairs": 330,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 0.9151515151515152,
+        "contribution_to_overall_tau": 0.11181044057756387,
+        "max_possible_contribution": 0.12217697149203999,
+        "score_lost": 0.010366530914476119
+      },
+      "T1 top-10 in 2022 vs T3 no 2022 medal": {
+        "pairs": 310,
+        "share_tied_in_truth": 0.0,
+        "tau_within": 0.9935483870967742,
+        "contribution_to_overall_tau": 0.11403184005923732,
+        "max_possible_contribution": 0.11477230655312846,
+        "score_lost": 0.0007404664938911454
+      },
+      "within T2 other 2022 medallists": {
+        "pairs": 528,
+        "share_tied_in_truth": 0.06060606060606061,
+        "tau_within": 0.20454545454545456,
+        "contribution_to_overall_tau": 0.03998519067012218,
+        "max_possible_contribution": 0.18363569048500555,
+        "score_lost": 0.14365049981488337
+      },
+      "T2 other 2022 medallists vs T3 no 2022 medal": {
+        "pairs": 1023,
+        "share_tied_in_truth": 0.1652003910068426,
+        "tau_within": 0.3949169110459433,
+        "contribution_to_overall_tau": 0.1495742317660126,
+        "max_possible_contribution": 0.31617919289152163,
+        "score_lost": 0.16660496112550904
+      },
+      "within T3 no 2022 medal": {
+        "pairs": 465,
+        "share_tied_in_truth": 0.5655913978494623,
+        "tau_within": -0.017204301075268817,
+        "contribution_to_overall_tau": -0.002961865975564606,
+        "max_possible_contribution": 0.0747871158830063,
+        "score_lost": 0.0777489818585709
+      }
+    }
+  },
+  "programme_effect": {
+    "England": {
+      "golds_2022_all_sports": 58,
+      "golds_2022_2026_sports": 41,
+      "golds_2022_dropped_sports": 17,
+      "share_dropped": 0.29310344827586204
+    },
+    "Australia": {
+      "golds_2022_all_sports": 67,
+      "golds_2022_2026_sports": 54,
+      "golds_2022_dropped_sports": 13,
+      "share_dropped": 0.19402985074626866
+    },
+    "India": {
+      "golds_2022_all_sports": 21,
+      "golds_2022_2026_sports": 8,
+      "golds_2022_dropped_sports": 13,
+      "share_dropped": 0.6190476190476191
+    },
+    "Canada": {
+      "golds_2022_all_sports": 26,
+      "golds_2022_2026_sports": 20,
+      "golds_2022_dropped_sports": 6,
+      "share_dropped": 0.23076923076923078
+    },
+    "New Zealand": {
+      "golds_2022_all_sports": 20,
+      "golds_2022_2026_sports": 15,
+      "golds_2022_dropped_sports": 5,
+      "share_dropped": 0.25
+    },
+    "Malaysia": {
+      "golds_2022_all_sports": 7,
+      "golds_2022_2026_sports": 3,
+      "golds_2022_dropped_sports": 4,
+      "share_dropped": 0.5714285714285714
+    },
+    "Singapore": {
+      "golds_2022_all_sports": 4,
+      "golds_2022_2026_sports": 0,
+      "golds_2022_dropped_sports": 4,
+      "share_dropped": 1.0
+    },
+    "Nigeria": {
+      "golds_2022_all_sports": 12,
+      "golds_2022_2026_sports": 9,
+      "golds_2022_dropped_sports": 3,
+      "share_dropped": 0.25
+    },
+    "Wales": {
+      "golds_2022_all_sports": 8,
+      "golds_2022_2026_sports": 6,
+      "golds_2022_dropped_sports": 2,
+      "share_dropped": 0.25
+    },
+    "Bermuda": {
+      "golds_2022_all_sports": 1,
+      "golds_2022_2026_sports": 0,
+      "golds_2022_dropped_sports": 1,
+      "share_dropped": 1.0
+    },
+    "Scotland": {
+      "golds_2022_all_sports": 13,
+      "golds_2022_2026_sports": 12,
+      "golds_2022_dropped_sports": 1,
+      "share_dropped": 0.07692307692307693
+    },
+    "South Africa": {
+      "golds_2022_all_sports": 7,
+      "golds_2022_2026_sports": 6,
+      "golds_2022_dropped_sports": 1,
+      "share_dropped": 0.14285714285714285
+    },
+    "Grenada": {
+      "golds_2022_all_sports": 1,
+      "golds_2022_2026_sports": 1,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Cyprus": {
+      "golds_2022_all_sports": 2,
+      "golds_2022_2026_sports": 2,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Barbados": {
+      "golds_2022_all_sports": 1,
+      "golds_2022_2026_sports": 1,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Bahamas": {
+      "golds_2022_all_sports": 1,
+      "golds_2022_2026_sports": 1,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "British Virgin Islands": {
+      "golds_2022_all_sports": 1,
+      "golds_2022_2026_sports": 1,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Cameroon": {
+      "golds_2022_all_sports": 1,
+      "golds_2022_2026_sports": 1,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Pakistan": {
+      "golds_2022_all_sports": 2,
+      "golds_2022_2026_sports": 2,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Northern Ireland": {
+      "golds_2022_all_sports": 7,
+      "golds_2022_2026_sports": 7,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Jamaica": {
+      "golds_2022_all_sports": 6,
+      "golds_2022_2026_sports": 6,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Kenya": {
+      "golds_2022_all_sports": 6,
+      "golds_2022_2026_sports": 6,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Samoa": {
+      "golds_2022_all_sports": 1,
+      "golds_2022_2026_sports": 1,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Trinidad and Tobago": {
+      "golds_2022_all_sports": 3,
+      "golds_2022_2026_sports": 3,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Uganda": {
+      "golds_2022_all_sports": 3,
+      "golds_2022_2026_sports": 3,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    },
+    "Zambia": {
+      "golds_2022_all_sports": 1,
+      "golds_2022_2026_sports": 1,
+      "golds_2022_dropped_sports": 0,
+      "share_dropped": 0.0
+    }
+  },
+  "ranks": {
+    "Anguilla": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 64.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Antigua and Barbuda": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 48.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Australia": {
+      "true_rank": 1.0,
+      "B0_rank": 74.0,
+      "B1_rank": 1.0,
+      "B1p_rank": 1.0,
+      "B2_rank": 3.0,
+      "gold": 70,
+      "silver": 45,
+      "bronze": 56
+    },
+    "Bahamas": {
+      "true_rank": 20.0,
+      "B0_rank": 74.0,
+      "B1_rank": 23.0,
+      "B1p_rank": 21.0,
+      "B2_rank": 22.0,
+      "gold": 1,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Bangladesh": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 11.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Barbados": {
+      "true_rank": 31.0,
+      "B0_rank": 74.0,
+      "B1_rank": 20.0,
+      "B1p_rank": 19.0,
+      "B2_rank": 37.0,
+      "gold": 0,
+      "silver": 1,
+      "bronze": 0
+    },
+    "Belize": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 47.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Bermuda": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 25.0,
+      "B1p_rank": 39.0,
+      "B2_rank": 23.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Botswana": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 33.0,
+      "B1p_rank": 31.0,
+      "B2_rank": 33.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "British Virgin Islands": {
+      "true_rank": 23.0,
+      "B0_rank": 74.0,
+      "B1_rank": 26.0,
+      "B1p_rank": 24.0,
+      "B2_rank": 51.0,
+      "gold": 1,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Brunei": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 25.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Cameroon": {
+      "true_rank": 16.0,
+      "B0_rank": 74.0,
+      "B1_rank": 20.0,
+      "B1p_rank": 21.0,
+      "B2_rank": 27.0,
+      "gold": 1,
+      "silver": 1,
+      "bronze": 3
+    },
+    "Canada": {
+      "true_rank": 3.0,
+      "B0_rank": 74.0,
+      "B1_rank": 3.0,
+      "B1p_rank": 3.0,
+      "B2_rank": 2.0,
+      "gold": 19,
+      "silver": 20,
+      "bronze": 23
+    },
+    "Cayman Islands": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 26.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Cook Islands": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 58.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Cyprus": {
+      "true_rank": 14.0,
+      "B0_rank": 74.0,
+      "B1_rank": 17.0,
+      "B1p_rank": 16.0,
+      "B2_rank": 16.0,
+      "gold": 1,
+      "silver": 5,
+      "bronze": 6
+    },
+    "Dominica": {
+      "true_rank": 23.0,
+      "B0_rank": 74.0,
+      "B1_rank": 35.0,
+      "B1p_rank": 33.0,
+      "B2_rank": 65.0,
+      "gold": 1,
+      "silver": 0,
+      "bronze": 0
+    },
+    "England": {
+      "true_rank": 2.0,
+      "B0_rank": 74.0,
+      "B1_rank": 2.0,
+      "B1p_rank": 2.0,
+      "B2_rank": 1.0,
+      "gold": 29,
+      "silver": 45,
+      "bronze": 36
+    },
+    "Eswatini": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 46.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Falkland Islands": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 66.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Fiji": {
+      "true_rank": 20.0,
+      "B0_rank": 74.0,
+      "B1_rank": 29.0,
+      "B1p_rank": 38.0,
+      "B2_rank": 44.0,
+      "gold": 1,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Gabon": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 30.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "The Gambia": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 35.0,
+      "B1p_rank": 33.0,
+      "B2_rank": 60.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Ghana": {
+      "true_rank": 30.0,
+      "B0_rank": 74.0,
+      "B1_rank": 28.0,
+      "B1p_rank": 26.0,
+      "B2_rank": 20.0,
+      "gold": 0,
+      "silver": 1,
+      "bronze": 1
+    },
+    "Gibraltar": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 42.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Grenada": {
+      "true_rank": 23.0,
+      "B0_rank": 74.0,
+      "B1_rank": 23.0,
+      "B1p_rank": 21.0,
+      "B2_rank": 55.0,
+      "gold": 1,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Guernsey": {
+      "true_rank": 31.0,
+      "B0_rank": 74.0,
+      "B1_rank": 33.0,
+      "B1p_rank": 31.0,
+      "B2_rank": 36.0,
+      "gold": 0,
+      "silver": 1,
+      "bronze": 0
+    },
+    "Guyana": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 19.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "India": {
+      "true_rank": 4.0,
+      "B0_rank": 74.0,
+      "B1_rank": 4.0,
+      "B1p_rank": 7.0,
+      "B2_rank": 4.0,
+      "gold": 13,
+      "silver": 17,
+      "bronze": 9
+    },
+    "Isle of Man": {
+      "true_rank": 20.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 28.0,
+      "gold": 1,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Jamaica": {
+      "true_rank": 8.0,
+      "B0_rank": 74.0,
+      "B1_rank": 12.0,
+      "B1p_rank": 10.0,
+      "B2_rank": 34.0,
+      "gold": 10,
+      "silver": 4,
+      "bronze": 5
+    },
+    "Jersey": {
+      "true_rank": 17.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 29.0,
+      "gold": 1,
+      "silver": 1,
+      "bronze": 0
+    },
+    "Kenya": {
+      "true_rank": 13.0,
+      "B0_rank": 74.0,
+      "B1_rank": 13.0,
+      "B1p_rank": 11.0,
+      "B2_rank": 15.0,
+      "gold": 3,
+      "silver": 4,
+      "bronze": 5
+    },
+    "Kiribati": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 69.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Lesotho": {
+      "true_rank": 33.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 62.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 2
+    },
+    "Malawi": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 53.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Malaysia": {
+      "true_rank": 10.0,
+      "B0_rank": 74.0,
+      "B1_rank": 10.0,
+      "B1p_rank": 13.0,
+      "B2_rank": 8.0,
+      "gold": 8,
+      "silver": 3,
+      "bronze": 5
+    },
+    "Maldives": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 40.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Malta": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 40.0,
+      "B1p_rank": 39.0,
+      "B2_rank": 18.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Mauritius": {
+      "true_rank": 15.0,
+      "B0_rank": 74.0,
+      "B1_rank": 27.0,
+      "B1p_rank": 25.0,
+      "B2_rank": 35.0,
+      "gold": 1,
+      "silver": 2,
+      "bronze": 1
+    },
+    "Montserrat": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 70.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Mozambique": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 30.0,
+      "B1p_rank": 27.0,
+      "B2_rank": 41.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Namibia": {
+      "true_rank": 29.0,
+      "B0_rank": 74.0,
+      "B1_rank": 39.0,
+      "B1p_rank": 37.0,
+      "B2_rank": 39.0,
+      "gold": 0,
+      "silver": 1,
+      "bronze": 2
+    },
+    "Nauru": {
+      "true_rank": 33.0,
+      "B0_rank": 74.0,
+      "B1_rank": 40.0,
+      "B1p_rank": 39.0,
+      "B2_rank": 68.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 2
+    },
+    "New Zealand": {
+      "true_rank": 6.0,
+      "B0_rank": 74.0,
+      "B1_rank": 5.0,
+      "B1p_rank": 4.0,
+      "B2_rank": 7.0,
+      "gold": 10,
+      "silver": 14,
+      "bronze": 12
+    },
+    "Nigeria": {
+      "true_rank": 7.0,
+      "B0_rank": 74.0,
+      "B1_rank": 7.0,
+      "B1p_rank": 6.0,
+      "B2_rank": 17.0,
+      "gold": 10,
+      "silver": 7,
+      "bronze": 7
+    },
+    "Niue": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 40.0,
+      "B1p_rank": 39.0,
+      "B2_rank": 74.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Norfolk Island": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 73.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Northern Ireland": {
+      "true_rank": 12.0,
+      "B0_rank": 74.0,
+      "B1_rank": 11.0,
+      "B1p_rank": 8.0,
+      "B2_rank": 12.0,
+      "gold": 3,
+      "silver": 4,
+      "bronze": 9
+    },
+    "Pakistan": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 18.0,
+      "B1p_rank": 17.0,
+      "B2_rank": 13.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Papua New Guinea": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 35.0,
+      "B1p_rank": 33.0,
+      "B2_rank": 31.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Rwanda": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 43.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Saint Helena": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 71.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Saint Kitts and Nevis": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 56.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Saint Lucia": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 35.0,
+      "B1p_rank": 33.0,
+      "B2_rank": 50.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Saint Vincent and the Grenadines": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 57.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Samoa": {
+      "true_rank": 17.0,
+      "B0_rank": 74.0,
+      "B1_rank": 19.0,
+      "B1p_rank": 18.0,
+      "B2_rank": 61.0,
+      "gold": 1,
+      "silver": 1,
+      "bronze": 0
+    },
+    "Scotland": {
+      "true_rank": 5.0,
+      "B0_rank": 74.0,
+      "B1_rank": 6.0,
+      "B1p_rank": 5.0,
+      "B2_rank": 6.0,
+      "gold": 13,
+      "silver": 9,
+      "bronze": 17
+    },
+    "Seychelles": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 49.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Sierra Leone": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 54.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Singapore": {
+      "true_rank": 28.0,
+      "B0_rank": 74.0,
+      "B1_rank": 14.0,
+      "B1p_rank": 28.0,
+      "B2_rank": 5.0,
+      "gold": 0,
+      "silver": 2,
+      "bronze": 0
+    },
+    "Solomon Islands": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 59.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "South Africa": {
+      "true_rank": 11.0,
+      "B0_rank": 74.0,
+      "B1_rank": 9.0,
+      "B1p_rank": 9.0,
+      "B2_rank": 9.0,
+      "gold": 7,
+      "silver": 11,
+      "bronze": 10
+    },
+    "Sri Lanka": {
+      "true_rank": 17.0,
+      "B0_rank": 74.0,
+      "B1_rank": 31.0,
+      "B1p_rank": 29.0,
+      "B2_rank": 14.0,
+      "gold": 1,
+      "silver": 1,
+      "bronze": 0
+    },
+    "Tanzania": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 32.0,
+      "B1p_rank": 29.0,
+      "B2_rank": 24.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Togo": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 45.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Tonga": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 67.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Trinidad and Tobago": {
+      "true_rank": 26.0,
+      "B0_rank": 74.0,
+      "B1_rank": 15.0,
+      "B1p_rank": 14.0,
+      "B2_rank": 21.0,
+      "gold": 0,
+      "silver": 3,
+      "bronze": 4
+    },
+    "Turks and Caicos Islands": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 52.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Tuvalu": {
+      "true_rank": 36.0,
+      "B0_rank": 74.0,
+      "B1_rank": 44.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 72.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 1
+    },
+    "Uganda": {
+      "true_rank": 27.0,
+      "B0_rank": 74.0,
+      "B1_rank": 16.0,
+      "B1p_rank": 15.0,
+      "B2_rank": 32.0,
+      "gold": 0,
+      "silver": 2,
+      "bronze": 1
+    },
+    "Vanuatu": {
+      "true_rank": 46.0,
+      "B0_rank": 74.0,
+      "B1_rank": 40.0,
+      "B1p_rank": 43.0,
+      "B2_rank": 63.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 0
+    },
+    "Wales": {
+      "true_rank": 9.0,
+      "B0_rank": 74.0,
+      "B1_rank": 8.0,
+      "B1p_rank": 12.0,
+      "B2_rank": 10.0,
+      "gold": 9,
+      "silver": 10,
+      "bronze": 12
+    },
+    "Zambia": {
+      "true_rank": 33.0,
+      "B0_rank": 74.0,
+      "B1_rank": 20.0,
+      "B1p_rank": 19.0,
+      "B2_rank": 38.0,
+      "gold": 0,
+      "silver": 0,
+      "bronze": 2
+    }
+  }
+}

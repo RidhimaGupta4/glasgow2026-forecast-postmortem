@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Glasgow 2026 Commonwealth Games medal-table forecast: a leakage-free post-mortem"
+authors:
+  - family-names: Gupta
+    given-names: Ridhima
+date-released: 2026-10-28
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/RidhimaGupta4/glasgow2026-forecast-postmortem"

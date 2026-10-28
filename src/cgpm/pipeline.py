@@ -57,6 +57,29 @@ def build_forecasts(data_dir: Path) -> tuple[dict[str, pd.Series], dict]:
     return forecasts, extras
 
 
+def historical_carry_forward(pre) -> pd.DataFrame:
+    """How well 'last Games carried forward' scored in earlier cycles.
+
+    Uses only pre-2026 tables. For a target Games, nations are those of the
+    74 that took part in it; the forecast is the previous Games' table.
+    Gives context for whether 2026 was unusually easy or hard to forecast.
+    """
+    rows = []
+    for prev, target in [(2014, 2018), (2018, 2022)]:
+        took = pre.nations[pre.nations[f"participated_{target}"] == 1]
+        truth_t = rank_from_table(complete_table(pre.medals[target], took))
+        pred_t = rank_from_table(complete_table(pre.medals[prev], took))
+        rows.append({
+            "forecast": f"{prev} table carried forward",
+            "target_games": target,
+            "nations": len(took),
+            "tau": competition_tau(pred_t, truth_t),
+            "ceiling": tau_ceiling(truth_t),
+            "share_of_ceiling": competition_tau(pred_t, truth_t) / tau_ceiling(truth_t),
+        })
+    return pd.DataFrame(rows)
+
+
 def run(data_dir: Path, out_dir: Path, make_figures: bool = True, make_report: bool = True) -> dict:
     data_dir, out_dir = Path(data_dir), Path(out_dir)
     tables_dir = out_dir / "tables"
@@ -135,8 +158,10 @@ def run(data_dir: Path, out_dir: Path, make_figures: bool = True, make_report: b
     })
 
     fit = extras["b2_fit"]
+    hist = historical_carry_forward(pre)
 
     # ---- write tables ----
+    hist.to_csv(tables_dir / "historical_carry_forward.csv", index=False)
     scores.to_csv(tables_dir / "scores.csv", index=False)
     diffs.to_csv(tables_dir / "paired_differences.csv", index=False)
     ranks.to_csv(tables_dir / "ranks_by_nation.csv")
@@ -168,6 +193,11 @@ def run(data_dir: Path, out_dir: Path, make_figures: bool = True, make_report: b
         "b1_to_b1p_pair_changes": flips.to_dict(),
         "b2_coefficients": fit.coefficients.to_dict(orient="index"),
         "scotland": scot.to_dict(orient="index"),
+        "historical_carry_forward": hist.set_index("target_games").to_dict(orient="index"),
+        "host_gold_shares": hosts.set_index("host_games").to_dict(orient="index"),
+        "tiers": {k: t.set_index("pair_type").to_dict(orient="index") for k, t in tier_tables.items()},
+        "programme_effect": prog.to_dict(orient="index"),
+        "ranks": ranks.to_dict(orient="index"),
     }
     (out_dir / "metrics.json").write_text(json.dumps(metrics, indent=2, default=float))
 

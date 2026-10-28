@@ -47,12 +47,16 @@ def tier_breakdown(pred: pd.Series, true: pd.Series, tier: pd.Series) -> pd.Data
             else:
                 vals, tied_vals = block.ravel(), tied.ravel()
             pairs = vals.size
+            contribution = float(vals.sum() / total_pairs)
+            max_contribution = float((~tied_vals).sum() / total_pairs)
             rows.append({
                 "pair_type": f"{TIER_LABELS[a]} vs {TIER_LABELS[b]}" if a != b else f"within {TIER_LABELS[a]}",
                 "pairs": int(pairs),
                 "share_tied_in_truth": float(tied_vals.mean()) if pairs else np.nan,
                 "tau_within": float(vals.sum() / pairs) if pairs else np.nan,
-                "contribution_to_overall_tau": float(vals.sum() / total_pairs),
+                "contribution_to_overall_tau": contribution,
+                "max_possible_contribution": max_contribution,
+                "score_lost": max_contribution - contribution,
             })
     return pd.DataFrame(rows)
 
@@ -61,7 +65,9 @@ def biggest_misses(pred: pd.Series, true: pd.Series, k: int = 10) -> pd.DataFram
     c = nation_contributions(pred, true)
     c["forecast_rank"] = pred.loc[c.index]
     c["true_rank"] = true.loc[c.index]
-    return c.sort_values(["net", "discordant"], ascending=[True, False]).head(k)
+    # Sorted by discordant pairs (pairs placed in the wrong order), then by net.
+    # See the ANALYSIS_PLAN.md change log for why this replaced sorting by net.
+    return c.sort_values(["discordant", "net"], ascending=[False, True]).head(k)
 
 
 def programme_effect(medals_2022: pd.DataFrame, filtered: pd.DataFrame, nations: pd.DataFrame) -> pd.DataFrame:

@@ -86,4 +86,8 @@ Nothing fitted after the Games is presented as a forecast. B1p and B2 were speci
 
 ## Change log
 
-- *(none yet)*
+- **28 Oct 2026, after first scoring: biggest-miss sort.** Section 6.1 said misses would be ranked by net contribution (concordant minus discordant). In practice only two nations have a negative net under B1, so a table sorted by net lists nations with positive nets as "misses", which reads wrongly. Misses are now sorted by **discordant pairs** (pairs placed in the wrong order), with net as the tie-break. This changes a presentation table only. No score, interval or verdict depends on it.
+- **28 Oct 2026, after first scoring: three diagnostics added.** None changes a score, an interval or a verdict.
+  - (a) Score lost against the ceiling for each tier pairing.
+  - (b) Quasi-Poisson standard errors for B2's coefficients, because the counts are over-dispersed. Point estimates, and therefore ranks, are unchanged.
+  - (c) A historical benchmark: "previous Games carried forward" scored for 2018 and 2022, using only pre-2026 tables, to show whether 2026 was unusually hard. These are labelled as additions here rather than presented as pre-specified.
