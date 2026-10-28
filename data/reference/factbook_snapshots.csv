@@ -1,0 +1,4 @@
+games,forecast_cutoff_utc,factbook_commit,commit_datetime,purpose
+2018,2018-04-03T23:59:59Z,1c4de10,2017-03-29T17:23:29Z,training features for the population/GDP baseline
+2022,2022-07-27T23:59:59Z,a2745bd,2022-07-21T22:26:10Z,training features for the population/GDP baseline
+2026,2026-07-22T22:59:59Z,8662a8b,2026-05-17T16:58:43Z,prediction features for Glasgow 2026 (competition deadline 23:59 BST)

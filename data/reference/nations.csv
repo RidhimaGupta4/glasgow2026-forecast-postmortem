@@ -1,0 +1,75 @@
+nation,cga_code,factbook_code,home_nation,participated_2014,participated_2018,participated_2022,participated_2026
+Anguilla,AIA,av,0,1,1,1,1
+Antigua and Barbuda,ANT,ac,0,1,1,1,1
+Australia,AUS,as,0,1,1,1,1
+Bahamas,BAH,bf,0,1,1,1,1
+Bangladesh,BAN,bg,0,1,1,1,1
+Barbados,BAR,bb,0,1,1,1,1
+Belize,BIZ,bh,0,1,1,1,1
+Bermuda,BER,bd,0,1,1,1,1
+Botswana,BOT,bc,0,1,1,1,1
+British Virgin Islands,IVB,vi,0,1,1,1,1
+Brunei,BRU,bx,0,1,1,1,1
+Cameroon,CMR,cm,0,1,1,1,1
+Canada,CAN,ca,0,1,1,1,1
+Cayman Islands,CAY,cj,0,1,1,1,1
+Cook Islands,COK,cw,0,1,1,1,1
+Cyprus,CYP,cy,0,1,1,1,1
+Dominica,DMA,do,0,1,1,1,1
+England,ENG,uk,1,1,1,1,1
+Eswatini,SWZ,wz,0,1,1,1,1
+Falkland Islands,FLK,fk,0,1,1,1,1
+Fiji,FIJ,fj,0,1,1,1,1
+Gabon,GAB,gb,0,0,0,0,1
+The Gambia,GAM,ga,0,0,1,1,1
+Ghana,GHA,gh,0,1,1,1,1
+Gibraltar,GIB,gi,0,1,1,1,1
+Grenada,GRN,gj,0,1,1,1,1
+Guernsey,GGY,gk,0,1,1,1,1
+Guyana,GUY,gy,0,1,1,1,1
+India,IND,in,0,1,1,1,1
+Isle of Man,IOM,im,0,1,1,1,1
+Jamaica,JAM,jm,0,1,1,1,1
+Jersey,JEY,je,0,1,1,1,1
+Kenya,KEN,ke,0,1,1,1,1
+Kiribati,KIR,kr,0,1,1,1,1
+Lesotho,LES,lt,0,1,1,1,1
+Malawi,MAW,mi,0,1,1,1,1
+Malaysia,MAS,my,0,1,1,1,1
+Maldives,MDV,mv,0,1,0,1,1
+Malta,MLT,mt,0,1,1,1,1
+Mauritius,MRI,mp,0,1,1,1,1
+Montserrat,MSR,mh,0,1,1,1,1
+Mozambique,MOZ,mz,0,1,1,1,1
+Namibia,NAM,wa,0,1,1,1,1
+Nauru,NRU,nr,0,1,1,1,1
+New Zealand,NZL,nz,0,1,1,1,1
+Nigeria,NGR,ni,0,1,1,1,1
+Niue,NIU,ne,0,1,1,1,1
+Norfolk Island,NFI,nf,0,1,1,1,1
+Northern Ireland,NIR,uk,1,1,1,1,1
+Pakistan,PAK,pk,0,1,1,1,1
+Papua New Guinea,PNG,pp,0,1,1,1,1
+Rwanda,RWA,rw,0,1,1,1,1
+Saint Helena,SHN,sh,0,1,1,1,1
+Saint Kitts and Nevis,SKN,sc,0,1,1,1,1
+Saint Lucia,LCA,st,0,1,1,1,1
+Saint Vincent and the Grenadines,VIN,vc,0,1,1,1,1
+Samoa,SAM,ws,0,1,1,1,1
+Scotland,SCO,uk,1,1,1,1,1
+Seychelles,SEY,se,0,1,1,1,1
+Sierra Leone,SLE,sl,0,1,1,1,1
+Singapore,SGP,sn,0,1,1,1,1
+Solomon Islands,SOL,bp,0,1,1,1,1
+South Africa,RSA,sf,0,1,1,1,1
+Sri Lanka,SRI,ce,0,1,1,1,1
+Tanzania,TAN,tz,0,1,1,1,1
+Togo,TOG,to,0,0,0,0,1
+Tonga,TGA,tn,0,1,1,1,1
+Trinidad and Tobago,TTO,td,0,1,1,1,1
+Turks and Caicos Islands,TCA,tk,0,1,1,1,1
+Tuvalu,TUV,tv,0,1,1,1,1
+Uganda,UGA,ug,0,1,1,1,1
+Vanuatu,VAN,nh,0,1,1,1,1
+Wales,WAL,uk,1,1,1,1,1
+Zambia,ZAM,za,0,1,1,1,1
