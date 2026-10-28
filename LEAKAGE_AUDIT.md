@@ -13,8 +13,7 @@ Each risk below is listed with how it is controlled and where that control is ch
 | L5 | Model trained on the Games it predicts | B2 is fitted on 2018 and 2022 only; 2026 is prediction-only. | Test: `test_b2_trains_only_on_past_games` |
 | L6 | Hyperparameters tuned on 2026 | B2 has none: fixed covariates, fixed training Games, no selection. B1 and B1p are rules with no parameters. | Test: `test_b2_has_no_free_parameters_tuned_on_2026`; ANALYSIS_PLAN.md |
 | L7 | Decomposition groups chosen using the outcome | Tiers are defined from the 2022 table only. | Code: `decompose.tiers_from_2022` |
-| L8 | Original forecast edited after the Games | The submission loader never changes a rank; name differences go through a separate alias file. `scripts/validate_submission.py` prints a SHA-256 hash to record next to the email timestamp. | Test: `test_aliases_map_names_without_touching_ranks` |
-| L9 | Analysis chosen after seeing scores (forking paths) | Plan, data and code committed before the first score (commit `Pre-scoring: ...`). Post-scoring changes are logged in the plan's change log; none alters a score, interval or verdict. | git history; ANALYSIS_PLAN.md change log |
+| L8 | Analysis chosen after seeing scores (forking paths) | Plan, data and code committed before the first score (commit `Pre-scoring: ...`). Post-scoring changes are logged in the plan's change log; none alters a score, interval or verdict. | git history; ANALYSIS_PLAN.md change log |
 
 ## Statistical risks
 

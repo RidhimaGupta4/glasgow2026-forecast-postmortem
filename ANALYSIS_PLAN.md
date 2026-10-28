@@ -4,9 +4,7 @@
 
 ## 1. What is being evaluated
 
-A forecast of the final Glasgow 2026 Commonwealth Games medal table, submitted to the Royal Statistical Society Statistics in Sport Section prediction competition before the deadline of 23:59 BST on Wednesday 22 July 2026. The Games ran from 23 July to 2 August 2026.
-
-The original submission is optional input (`data/forecast/original_submission.csv`). Everything else runs without it.
+How predictable the final Glasgow 2026 Commonwealth Games medal table was from information public before the Games, judged with the rules and metric of the Royal Statistical Society Statistics in Sport Section 2026 prediction competition. The competition deadline (23:59 BST, Wednesday 22 July 2026) is the information cut-off. The Games ran from 23 July to 2 August 2026.
 
 ## 2. Truth
 
@@ -37,7 +35,6 @@ All baselines use only information that existed before the deadline. Their code 
 
 | Label | Forecast | Status |
 |---|---|---|
-| Original | The submitted entry, if supplied | Pre-registered; scored as submitted, never edited |
 | B0 | Default entry, all nations tied | The competition's reference; tau = 0 by construction |
 | B1 | Birmingham 2022 table carried forward | Specified by the brief before scoring |
 | B2 | Poisson regression of golds on log population and log GDP | Specified by the brief before scoring |
@@ -82,7 +79,7 @@ A forecast is said to **beat** another only if the paired 95% interval for the d
 
 ## 7. Retrospective work
 
-Nothing fitted after the Games is presented as a forecast. B1p and B2 were specified after the Games, using pre-deadline data only, so they are labelled **retrospective baselines**. If an improved model is ever added, it goes in a separate, clearly labelled section and is never compared with the original as if it had been available on 22 July 2026.
+Nothing fitted after the Games is presented as a forecast. B1p and B2 were specified after the Games, using pre-deadline data only, so they are labelled **retrospective baselines**. If an improved model is ever added, it goes in a separate, clearly labelled section and is never presented as if it had been available on 22 July 2026.
 
 ## Change log
 
@@ -91,3 +88,4 @@ Nothing fitted after the Games is presented as a forecast. B1p and B2 were speci
   - (a) Score lost against the ceiling for each tier pairing.
   - (b) Quasi-Poisson standard errors for B2's coefficients, because the counts are over-dispersed. Point estimates, and therefore ranks, are unchanged.
   - (c) A historical benchmark: "previous Games carried forward" scored for 2018 and 2022, using only pre-2026 tables, to show whether 2026 was unusually hard. These are labelled as additions here rather than presented as pre-specified.
+- **28 Oct 2026: scope narrowed to baselines only.** The plan allowed an optional competition entry to be scored alongside the baselines. That option has been removed: sections 1 and 4 no longer mention it, and the code, tests and folder for it are deleted. No entry was ever added or scored, so no result changes. The pre-scoring commit keeps the original wording.

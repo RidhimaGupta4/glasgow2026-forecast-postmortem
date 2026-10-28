@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glasgow 2026 Predictability</title>
+<meta name="description" content="How predictable was the Glasgow 2026 Commonwealth Games medal table? Leakage-free baselines scored with the RSS competition's Kendall's tau.">
+<style>
+:root{
+  color-scheme: light;
+  --surface-0:#f4f3f0; --surface-1:#fcfcfb; --border:#e4e3df; --grid:#ecebe7;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#7a7975;
+  --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --neutral:#9a9893;
+  --accent-soft:#e8f0fb;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --surface-0:#121211; --surface-1:#1a1a19; --border:#2e2e2b; --grid:#262624;
+    --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#8f8e86;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --neutral:#6b6a65;
+    --accent-soft:#1d2a3b;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --surface-0:#121211; --surface-1:#1a1a19; --border:#2e2e2b; --grid:#262624;
+  --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#8f8e86;
+  --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --neutral:#6b6a65;
+  --accent-soft:#1d2a3b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-0);color:var(--text-primary);
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 16px 48px}
+header h1{font-size:26px;line-height:1.2;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--text-secondary);max-width:760px}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0}
+.tile{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.tile .k{font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em}
+.tile .v{font-size:28px;font-weight:650;margin-top:2px;font-variant-numeric:tabular-nums}
+.tile .s{font-size:13px;color:var(--text-muted)}
+.panel{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:18px 18px 14px;margin-top:16px}
+.panel h2{font-size:17px;margin:0 0 2px}
+.panel .lede{margin:0 0 12px;color:var(--text-secondary);font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2 .panel{margin-top:16px}
+svg{display:block;max-width:100%;height:auto;overflow:visible}
+svg text{fill:var(--text-secondary);font-size:12px}
+svg .ink{fill:var(--text-primary)}
+.axis line,.axis path{stroke:var(--border)}
+.gridline{stroke:var(--grid)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.seg button{background:transparent;color:var(--text-secondary);border:0;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--text-primary);font-weight:600}
+.seg button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--series-1);outline-offset:2px}
+input[type=search]{background:var(--surface-0);color:var(--text-primary);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font:inherit;font-size:13px;min-width:200px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--text-secondary);margin:4px 0 6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.tip{position:fixed;pointer-events:none;z-index:10;background:var(--surface-1);color:var(--text-primary);
+  border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.4;
+  box-shadow:0 4px 18px rgba(0,0,0,.14);max-width:260px;opacity:0;transition:opacity .08s}
+.tip b{font-weight:650}
+.tip .m{color:var(--text-secondary)}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:5px 8px;border-bottom:1px solid var(--border);text-align:right}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--text-secondary);font-weight:600;cursor:pointer;user-select:none;white-space:nowrap}
+details summary{cursor:pointer;color:var(--text-secondary);font-size:14px;margin-top:8px}
+.tablewrap{max-height:360px;overflow:auto;margin-top:8px}
+.verdicts{display:grid;gap:6px;margin-top:10px;font-size:14px}
+.verdicts div{color:var(--text-secondary)}
+.verdicts b{color:var(--text-primary)}
+ul.method{margin:6px 0 0;padding-left:18px;color:var(--text-secondary);font-size:14px}
+ul.method li{margin:4px 0}
+a{color:var(--series-1)}
+footer{margin-top:20px;color:var(--text-muted);font-size:13px}
+.note{font-size:12.5px;color:var(--text-muted);margin-top:6px}
+@media (max-width:820px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>How predictable was the Glasgow 2026 medal table?</h1>
+  <p>Naive forecasts built only from information public before the deadline of 22 July 2026, scored with the Royal Statistical Society competition's exact Kendall's tau. All 74 nations are ranked, and nations level on gold, silver and bronze stay tied.</p>
+</header>
+
+<section class="tiles" id="tiles" aria-label="Headline numbers"></section>
+
+<section class="panel" aria-labelledby="h-score">
+  <h2 id="h-score">Scoreboard</h2>
+  <p class="lede">Each forecast's score with a 95% paired nation-bootstrap interval. The dashed line is the best score any forecast could get this year.</p>
+  <div id="scoreboard"></div>
+  <div class="verdicts" id="verdicts"></div>
+</section>
+
+<section class="panel" aria-labelledby="h-nat">
+  <h2 id="h-nat">Nation explorer</h2>
+  <p class="lede">Forecast rank against final rank. Points on the diagonal were placed exactly. Hover over a point for details; the 29 nations with no medal share final rank 46.</p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Forecast" id="natSeg"></div>
+    <input type="search" id="natSearch" placeholder="Find a nation…" aria-label="Find a nation" list="natList">
+    <datalist id="natList"></datalist>
+  </div>
+  <div id="scatter"></div>
+  <details>
+    <summary>Show all 74 nations as a table</summary>
+    <div class="tablewrap"><table id="natTable"></table></div>
+  </details>
+</section>
+
+<div class="grid2">
+  <section class="panel" aria-labelledby="h-tier">
+    <h2 id="h-tier">Where the score was lost</h2>
+    <p class="lede">Score lost against the best possible, by tiers built from the 2022 table only. T1 = 2022 top 10, T2 = other 2022 medallists, T3 = no 2022 medal.</p>
+    <div class="legend" id="tierLegend"></div>
+    <div id="tiers"></div>
+  </section>
+  <section class="panel" aria-labelledby="h-hist">
+    <h2 id="h-hist">Was 2026 unusually hard?</h2>
+    <p class="lede">"Last Games carried forward" scored in three cycles, using only earlier tables. Bars show tau; ticks show the best possible score.</p>
+    <div id="history"></div>
+  </section>
+</div>
+
+<section class="panel" aria-labelledby="h-prog">
+  <h2 id="h-prog">The reduced programme</h2>
+  <p class="lede" id="progLede"></p>
+  <div class="legend">
+    <span><i style="background:var(--neutral)"></i>2022 golds, all sports</span>
+    <span><i style="background:var(--series-1)"></i>2022 golds, sports kept for 2026</span>
+    <span><i style="background:var(--series-2)"></i>2026 golds (actual)</span>
+  </div>
+  <div id="programme"></div>
+</section>
+
+<section class="panel" aria-labelledby="h-method">
+  <h2 id="h-method">Method and leakage controls</h2>
+  <ul class="method" id="method"></ul>
+</section>
+
+<footer id="footer"></footer>
+</div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script type="application/json" id="data">{"ceiling":0.8282117734172528,"pairs":2701,"tied_pairs":464,"zero_medal":29,"n_boot":10000,"scores":[{"id":"B0","label":"B0 default entry (all tied)","tau":0.0,"lo":0.0,"hi":0.0,"share":0.0,"conc":0,"disc":0},{"id":"B1","label":"B1 Birmingham 2022 carried forward","tau":0.5879303961495742,"lo":0.4676191337340362,"hi":0.6953939621440262,"share":0.7098793026374609,"conc":1804,"disc":216},{"id":"B1p","label":"B1p 2022, 2026-programme sports only","tau":0.584598296927064,"lo":0.4657173630759596,"hi":0.6900891279299088,"share":0.7058560572194904,"conc":1795,"disc":216},{"id":"B2","label":"B2 population + GDP model","tau":0.4239170677526842,"lo":0.2780836376338544,"hi":0.5583398012407718,"share":0.5118462226195798,"conc":1691,"disc":546}],"diffs":[{"cmp":"B1p - B1","d":-0.0033320992225102,"lo":-0.0263160368955483,"hi":0.0198801564837738,"verdict":"not distinguishable"},{"cmp":"B1 - B2","d":0.16401332839689,"lo":0.0432148094802731,"hi":0.288448556072151,"verdict":"B1 beats B2"},{"cmp":"B1p - B2","d":0.1606812291743798,"lo":0.0382857796958321,"hi":0.2879712024145983,"verdict":"B1p beats B2"}],"nations":[{"nation":"Anguilla","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":64,"B1_c":37,"B1p_c":37,"B2_c":40,"B1_d":0,"B1p_d":0,"B2_d":5},{"nation":"Antigua and Barbuda","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":48,"B1_c":37,"B1p_c":37,"B2_c":35,"B1_d":0,"B1p_d":0,"B2_d":10},{"nation":"Australia","gold":70,"silver":45,"bronze":56,"true":1,"tier":1,"B1":1,"B1p":1,"B2":3,"B1_c":73,"B1p_c":73,"B2_c":71,"B1_d":0,"B1p_d":0,"B2_d":2},{"nation":"Bahamas","gold":1,"silver":0,"bronze":1,"true":20,"tier":2,"B1":23,"B1p":21,"B2":22,"B1_c":61,"B1p_c":61,"B2_c":59,"B1_d":9,"B1p_d":8,"B2_d":12},{"nation":"Bangladesh","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":11,"B1_c":37,"B1p_c":37,"B2_c":10,"B1_d":0,"B1p_d":0,"B2_d":35},{"nation":"Barbados","gold":0,"silver":1,"bronze":0,"true":31,"tier":2,"B1":20,"B1p":19,"B2":37,"B1_c":58,"B1p_c":57,"B2_c":55,"B1_d":12,"B1p_d":14,"B2_d":17},{"nation":"Belize","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":47,"B1_c":37,"B1p_c":37,"B2_c":35,"B1_d":0,"B1p_d":0,"B2_d":10},{"nation":"Bermuda","gold":0,"silver":0,"bronze":1,"true":36,"tier":2,"B1":25,"B1p":39,"B2":23,"B1_c":52,"B1p_c":55,"B2_c":45,"B1_d":12,"B1p_d":7,"B2_d":19},{"nation":"Botswana","gold":0,"silver":0,"bronze":0,"true":46,"tier":2,"B1":33,"B1p":31,"B2":33,"B1_c":30,"B1p_c":28,"B2_c":27,"B1_d":14,"B1p_d":16,"B2_d":18},{"nation":"British Virgin Islands","gold":1,"silver":0,"bronze":0,"true":23,"tier":2,"B1":26,"B1p":24,"B2":51,"B1_c":59,"B1p_c":61,"B2_c":41,"B1_d":12,"B1p_d":10,"B2_d":30},{"nation":"Brunei","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":25,"B1_c":37,"B1p_c":37,"B2_c":21,"B1_d":0,"B1p_d":0,"B2_d":24},{"nation":"Cameroon","gold":1,"silver":1,"bronze":3,"true":16,"tier":2,"B1":20,"B1p":21,"B2":27,"B1_c":65,"B1p_c":64,"B2_c":58,"B1_d":6,"B1p_d":7,"B2_d":15},{"nation":"Canada","gold":19,"silver":20,"bronze":23,"true":3,"tier":1,"B1":3,"B1p":3,"B2":2,"B1_c":73,"B1p_c":73,"B2_c":72,"B1_d":0,"B1p_d":0,"B2_d":1},{"nation":"Cayman Islands","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":26,"B1_c":37,"B1p_c":37,"B2_c":21,"B1_d":0,"B1p_d":0,"B2_d":24},{"nation":"Cook Islands","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":58,"B1_c":37,"B1p_c":37,"B2_c":37,"B1_d":0,"B1p_d":0,"B2_d":8},{"nation":"Cyprus","gold":1,"silver":5,"bronze":6,"true":14,"tier":2,"B1":17,"B1p":16,"B2":16,"B1_c":70,"B1p_c":71,"B2_c":67,"B1_d":3,"B1p_d":2,"B2_d":6},{"nation":"Dominica","gold":1,"silver":0,"bronze":0,"true":23,"tier":2,"B1":35,"B1p":33,"B2":65,"B1_c":54,"B1p_c":54,"B2_c":31,"B1_d":14,"B1p_d":14,"B2_d":40},{"nation":"England","gold":29,"silver":45,"bronze":36,"true":2,"tier":1,"B1":2,"B1p":2,"B2":1,"B1_c":73,"B1p_c":73,"B2_c":72,"B1_d":0,"B1p_d":0,"B2_d":1},{"nation":"Eswatini","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":46,"B1_c":37,"B1p_c":37,"B2_c":35,"B1_d":0,"B1p_d":0,"B2_d":10},{"nation":"Falkland Islands","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":66,"B1_c":37,"B1p_c":37,"B2_c":41,"B1_d":0,"B1p_d":0,"B2_d":4},{"nation":"Fiji","gold":1,"silver":0,"bronze":1,"true":20,"tier":2,"B1":29,"B1p":38,"B2":44,"B1_c":59,"B1p_c":52,"B2_c":47,"B1_d":12,"B1p_d":19,"B2_d":24},{"nation":"Gabon","gold":0,"silver":0,"bronze":1,"true":36,"tier":3,"B1":44,"B1p":43,"B2":30,"B1_c":32,"B1p_c":32,"B2_c":45,"B1_d":6,"B1p_d":5,"B2_d":19},{"nation":"The Gambia","gold":0,"silver":0,"bronze":1,"true":36,"tier":2,"B1":35,"B1p":33,"B2":60,"B1_c":54,"B1p_c":53,"B2_c":38,"B1_d":8,"B1p_d":9,"B2_d":26},{"nation":"Ghana","gold":0,"silver":1,"bronze":1,"true":30,"tier":2,"B1":28,"B1p":26,"B2":20,"B1_c":63,"B1p_c":63,"B2_c":55,"B1_d":10,"B1p_d":10,"B2_d":18},{"nation":"Gibraltar","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":42,"B1_c":37,"B1p_c":37,"B2_c":33,"B1_d":0,"B1p_d":0,"B2_d":12},{"nation":"Grenada","gold":1,"silver":0,"bronze":0,"true":23,"tier":2,"B1":23,"B1p":21,"B2":55,"B1_c":59,"B1p_c":59,"B2_c":38,"B1_d":11,"B1p_d":10,"B2_d":33},{"nation":"Guernsey","gold":0,"silver":1,"bronze":0,"true":31,"tier":2,"B1":33,"B1p":31,"B2":36,"B1_c":62,"B1p_c":62,"B2_c":55,"B1_d":9,"B1p_d":9,"B2_d":17},{"nation":"Guyana","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":19,"B1_c":37,"B1p_c":37,"B2_c":17,"B1_d":0,"B1p_d":0,"B2_d":28},{"nation":"India","gold":13,"silver":17,"bronze":9,"true":4,"tier":1,"B1":4,"B1p":7,"B2":4,"B1_c":73,"B1p_c":70,"B2_c":73,"B1_d":0,"B1p_d":3,"B2_d":0},{"nation":"Isle of Man","gold":1,"silver":0,"bronze":1,"true":20,"tier":3,"B1":44,"B1p":43,"B2":28,"B1_c":18,"B1p_c":18,"B2_c":56,"B1_d":23,"B1p_d":22,"B2_d":15},{"nation":"Jamaica","gold":10,"silver":4,"bronze":5,"true":8,"tier":2,"B1":12,"B1p":10,"B2":34,"B1_c":69,"B1p_c":71,"B2_c":47,"B1_d":4,"B1p_d":2,"B2_d":26},{"nation":"Jersey","gold":1,"silver":1,"bronze":0,"true":17,"tier":3,"B1":44,"B1p":43,"B2":29,"B1_c":16,"B1p_c":16,"B2_c":56,"B1_d":25,"B1p_d":24,"B2_d":15},{"nation":"Kenya","gold":3,"silver":4,"bronze":5,"true":13,"tier":2,"B1":13,"B1p":11,"B2":15,"B1_c":73,"B1p_c":71,"B2_c":67,"B1_d":0,"B1p_d":2,"B2_d":6},{"nation":"Kiribati","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":69,"B1_c":37,"B1p_c":37,"B2_c":43,"B1_d":0,"B1p_d":0,"B2_d":2},{"nation":"Lesotho","gold":0,"silver":0,"bronze":2,"true":33,"tier":3,"B1":44,"B1p":43,"B2":62,"B1_c":30,"B1p_c":30,"B2_c":41,"B1_d":11,"B1p_d":10,"B2_d":30},{"nation":"Malawi","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":53,"B1_c":37,"B1p_c":37,"B2_c":36,"B1_d":0,"B1p_d":0,"B2_d":9},{"nation":"Malaysia","gold":8,"silver":3,"bronze":5,"true":10,"tier":1,"B1":10,"B1p":13,"B2":8,"B1_c":71,"B1p_c":70,"B2_c":69,"B1_d":2,"B1p_d":3,"B2_d":4},{"nation":"Maldives","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":40,"B1_c":37,"B1p_c":37,"B2_c":33,"B1_d":0,"B1p_d":0,"B2_d":12},{"nation":"Malta","gold":0,"silver":0,"bronze":1,"true":36,"tier":2,"B1":40,"B1p":39,"B2":18,"B1_c":54,"B1p_c":55,"B2_c":43,"B1_d":7,"B1p_d":7,"B2_d":21},{"nation":"Mauritius","gold":1,"silver":2,"bronze":1,"true":15,"tier":2,"B1":27,"B1p":25,"B2":35,"B1_c":61,"B1p_c":63,"B2_c":53,"B1_d":12,"B1p_d":10,"B2_d":20},{"nation":"Montserrat","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":70,"B1_c":37,"B1p_c":37,"B2_c":43,"B1_d":0,"B1p_d":0,"B2_d":2},{"nation":"Mozambique","gold":0,"silver":0,"bronze":0,"true":46,"tier":2,"B1":30,"B1p":27,"B2":41,"B1_c":29,"B1p_c":26,"B2_c":33,"B1_d":16,"B1p_d":19,"B2_d":12},{"nation":"Namibia","gold":0,"silver":1,"bronze":2,"true":29,"tier":2,"B1":39,"B1p":37,"B2":39,"B1_c":59,"B1p_c":59,"B2_c":53,"B1_d":14,"B1p_d":14,"B2_d":20},{"nation":"Nauru","gold":0,"silver":0,"bronze":2,"true":33,"tier":2,"B1":40,"B1p":39,"B2":68,"B1_c":58,"B1p_c":59,"B2_c":38,"B1_d":10,"B1p_d":9,"B2_d":33},{"nation":"New Zealand","gold":10,"silver":14,"bronze":12,"true":6,"tier":1,"B1":5,"B1p":4,"B2":7,"B1_c":72,"B1p_c":71,"B2_c":72,"B1_d":1,"B1p_d":2,"B2_d":1},{"nation":"Nigeria","gold":10,"silver":7,"bronze":7,"true":7,"tier":1,"B1":7,"B1p":6,"B2":17,"B1_c":73,"B1p_c":72,"B2_c":63,"B1_d":0,"B1p_d":1,"B2_d":10},{"nation":"Niue","gold":0,"silver":0,"bronze":0,"true":46,"tier":2,"B1":40,"B1p":39,"B2":74,"B1_c":35,"B1p_c":34,"B2_c":45,"B1_d":8,"B1p_d":8,"B2_d":0},{"nation":"Norfolk Island","gold":0,"silver":0,"bronze":1,"true":36,"tier":3,"B1":44,"B1p":43,"B2":73,"B1_c":32,"B1p_c":32,"B2_c":36,"B1_d":6,"B1p_d":5,"B2_d":28},{"nation":"Northern Ireland","gold":3,"silver":4,"bronze":9,"true":12,"tier":2,"B1":11,"B1p":8,"B2":12,"B1_c":72,"B1p_c":69,"B2_c":69,"B1_d":1,"B1p_d":4,"B2_d":4},{"nation":"Pakistan","gold":0,"silver":0,"bronze":1,"true":36,"tier":2,"B1":18,"B1p":17,"B2":13,"B1_c":46,"B1p_c":45,"B2_c":39,"B1_d":18,"B1p_d":19,"B2_d":25},{"nation":"Papua New Guinea","gold":0,"silver":0,"bronze":1,"true":36,"tier":2,"B1":35,"B1p":33,"B2":31,"B1_c":54,"B1p_c":53,"B2_c":45,"B1_d":8,"B1p_d":9,"B2_d":19},{"nation":"Rwanda","gold":0,"silver":0,"bronze":1,"true":36,"tier":3,"B1":44,"B1p":43,"B2":43,"B1_c":32,"B1p_c":32,"B2_c":48,"B1_d":6,"B1p_d":5,"B2_d":16},{"nation":"Saint Helena","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":71,"B1_c":37,"B1p_c":37,"B2_c":43,"B1_d":0,"B1p_d":0,"B2_d":2},{"nation":"Saint Kitts and Nevis","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":56,"B1_c":37,"B1p_c":37,"B2_c":37,"B1_d":0,"B1p_d":0,"B2_d":8},{"nation":"Saint Lucia","gold":0,"silver":0,"bronze":0,"true":46,"tier":2,"B1":35,"B1p":33,"B2":50,"B1_c":31,"B1p_c":29,"B2_c":35,"B1_d":11,"B1p_d":13,"B2_d":10},{"nation":"Saint Vincent and the Grenadines","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":57,"B1_c":37,"B1p_c":37,"B2_c":37,"B1_d":0,"B1p_d":0,"B2_d":8},{"nation":"Samoa","gold":1,"silver":1,"bronze":0,"true":17,"tier":2,"B1":19,"B1p":18,"B2":61,"B1_c":65,"B1p_c":66,"B2_c":29,"B1_d":6,"B1p_d":5,"B2_d":42},{"nation":"Scotland","gold":13,"silver":9,"bronze":17,"true":5,"tier":1,"B1":6,"B1p":5,"B2":6,"B1_c":72,"B1p_c":71,"B2_c":72,"B1_d":1,"B1p_d":2,"B2_d":1},{"nation":"Seychelles","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":49,"B1_c":37,"B1p_c":37,"B2_c":35,"B1_d":0,"B1p_d":0,"B2_d":10},{"nation":"Sierra Leone","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":54,"B1_c":37,"B1p_c":37,"B2_c":36,"B1_d":0,"B1p_d":0,"B2_d":9},{"nation":"Singapore","gold":0,"silver":2,"bronze":0,"true":28,"tier":2,"B1":14,"B1p":28,"B2":5,"B1_c":59,"B1p_c":63,"B2_c":50,"B1_d":14,"B1p_d":10,"B2_d":23},{"nation":"Solomon Islands","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":59,"B1_c":37,"B1p_c":37,"B2_c":37,"B1_d":0,"B1p_d":0,"B2_d":8},{"nation":"South Africa","gold":7,"silver":11,"bronze":10,"true":11,"tier":1,"B1":9,"B1p":9,"B2":9,"B1_c":71,"B1p_c":69,"B2_c":69,"B1_d":2,"B1p_d":4,"B2_d":4},{"nation":"Sri Lanka","gold":1,"silver":1,"bronze":0,"true":17,"tier":2,"B1":31,"B1p":29,"B2":14,"B1_c":58,"B1p_c":59,"B2_c":62,"B1_d":13,"B1p_d":11,"B2_d":9},{"nation":"Tanzania","gold":0,"silver":0,"bronze":0,"true":46,"tier":2,"B1":32,"B1p":29,"B2":24,"B1_c":30,"B1p_c":27,"B2_c":21,"B1_d":15,"B1p_d":17,"B2_d":24},{"nation":"Togo","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":45,"B1_c":37,"B1p_c":37,"B2_c":35,"B1_d":0,"B1p_d":0,"B2_d":10},{"nation":"Tonga","gold":0,"silver":0,"bronze":1,"true":36,"tier":3,"B1":44,"B1p":43,"B2":67,"B1_c":32,"B1p_c":32,"B2_c":38,"B1_d":6,"B1p_d":5,"B2_d":26},{"nation":"Trinidad and Tobago","gold":0,"silver":3,"bronze":4,"true":26,"tier":2,"B1":15,"B1p":14,"B2":21,"B1_c":60,"B1p_c":61,"B2_c":56,"B1_d":13,"B1p_d":12,"B2_d":17},{"nation":"Turks and Caicos Islands","gold":0,"silver":0,"bronze":0,"true":46,"tier":3,"B1":44,"B1p":43,"B2":52,"B1_c":37,"B1p_c":37,"B2_c":36,"B1_d":0,"B1p_d":0,"B2_d":9},{"nation":"Tuvalu","gold":0,"silver":0,"bronze":1,"true":36,"tier":3,"B1":44,"B1p":43,"B2":72,"B1_c":32,"B1p_c":32,"B2_c":36,"B1_d":6,"B1p_d":5,"B2_d":28},{"nation":"Uganda","gold":0,"silver":2,"bronze":1,"true":27,"tier":2,"B1":16,"B1p":15,"B2":32,"B1_c":60,"B1p_c":61,"B2_c":54,"B1_d":13,"B1p_d":12,"B2_d":19},{"nation":"Vanuatu","gold":0,"silver":0,"bronze":0,"true":46,"tier":2,"B1":40,"B1p":43,"B2":63,"B1_c":35,"B1p_c":37,"B2_c":40,"B1_d":8,"B1p_d":0,"B2_d":5},{"nation":"Wales","gold":9,"silver":10,"bronze":12,"true":9,"tier":1,"B1":8,"B1p":12,"B2":10,"B1_c":72,"B1p_c":70,"B2_c":68,"B1_d":1,"B1p_d":3,"B2_d":5},{"nation":"Zambia","gold":0,"silver":0,"bronze":2,"true":33,"tier":2,"B1":20,"B1p":19,"B2":38,"B1_c":56,"B1p_c":55,"B2_c":54,"B1_d":13,"B1p_d":15,"B2_d":17}],"tiers":{"B1":[{"pair_type":"within T1 top-10 in 2022","pairs":45,"tied":0.0,"tau_within":0.9111111111111112,"lost":0.0014809329877823},{"pair_type":"T1 top-10 in 2022 vs T2 other 2022 medallists","pairs":330,"tied":0.0,"tau_within":0.9818181818181818,"lost":0.0022213994816734},{"pair_type":"T1 top-10 in 2022 vs T3 no 2022 medal","pairs":310,"tied":0.0,"tau_within":1.0,"lost":0.0},{"pair_type":"within T2 other 2022 medallists","pairs":528,"tied":0.0606060606060606,"tau_within":0.4488636363636363,"lost":0.0958904109589041},{"pair_type":"T2 other 2022 medallists vs T3 no 2022 medal","pairs":1023,"tied":0.1652003910068426,"tau_within":0.6608015640273704,"lost":0.0659015179563124},{"pair_type":"within T3 no 2022 medal","pairs":465,"tied":0.5655913978494623,"tau_within":0.0,"lost":0.0747871158830063}],"B1p":[{"pair_type":"within T1 top-10 in 2022","pairs":45,"tied":0.0,"tau_within":0.7333333333333333,"lost":0.0044427989633469},{"pair_type":"T1 top-10 in 2022 vs T2 other 2022 medallists","pairs":330,"tied":0.0,"tau_within":0.9636363636363636,"lost":0.0044427989633469},{"pair_type":"T1 top-10 in 2022 vs T3 no 2022 medal","pairs":310,"tied":0.0,"tau_within":1.0,"lost":0.0},{"pair_type":"within T2 other 2022 medallists","pairs":528,"tied":0.0606060606060606,"tau_within":0.4431818181818182,"lost":0.0970011106997408},{"pair_type":"T2 other 2022 medallists vs T3 no 2022 medal","pairs":1023,"tied":0.1652003910068426,"tau_within":0.6686217008797654,"lost":0.0629396519807478},{"pair_type":"within T3 no 2022 medal","pairs":465,"tied":0.5655913978494623,"tau_within":0.0,"lost":0.0747871158830063}],"B2":[{"pair_type":"within T1 top-10 in 2022","pairs":45,"tied":0.0,"tau_within":0.6888888888888889,"lost":0.005183265457238},{"pair_type":"T1 top-10 in 2022 vs T2 other 2022 medallists","pairs":330,"tied":0.0,"tau_within":0.9151515151515152,"lost":0.0103665309144761},{"pair_type":"T1 top-10 in 2022 vs T3 no 2022 medal","pairs":310,"tied":0.0,"tau_within":0.9935483870967742,"lost":0.0007404664938911},{"pair_type":"within T2 other 2022 medallists","pairs":528,"tied":0.0606060606060606,"tau_within":0.2045454545454545,"lost":0.1436504998148833},{"pair_type":"T2 other 2022 medallists vs T3 no 2022 medal","pairs":1023,"tied":0.1652003910068426,"tau_within":0.3949169110459433,"lost":0.166604961125509},{"pair_type":"within T3 no 2022 medal","pairs":465,"tied":0.5655913978494623,"tau_within":-0.0172043010752688,"lost":0.0777489818585709}]},"history":[{"target":2018,"tau":0.5971830985915493,"ceiling":0.8398390342052314},{"target":2022,"tau":0.5954616588419406,"ceiling":0.8345070422535211},{"target":2026,"tau":0.5879303961495742,"ceiling":0.8282117734172528}],"programme":[{"nation":"England","all":58,"kept":41,"actual":29,"b1":2,"b1p":2,"true":2},{"nation":"Australia","all":67,"kept":54,"actual":70,"b1":1,"b1p":1,"true":1},{"nation":"India","all":21,"kept":8,"actual":13,"b1":4,"b1p":7,"true":4},{"nation":"Canada","all":26,"kept":20,"actual":19,"b1":3,"b1p":3,"true":3},{"nation":"New Zealand","all":20,"kept":15,"actual":10,"b1":5,"b1p":4,"true":6},{"nation":"Malaysia","all":7,"kept":3,"actual":8,"b1":10,"b1p":13,"true":10},{"nation":"Singapore","all":4,"kept":0,"actual":0,"b1":14,"b1p":28,"true":28},{"nation":"Nigeria","all":12,"kept":9,"actual":10,"b1":7,"b1p":6,"true":7},{"nation":"Wales","all":8,"kept":6,"actual":9,"b1":8,"b1p":12,"true":9},{"nation":"Bermuda","all":1,"kept":0,"actual":0,"b1":25,"b1p":39,"true":36},{"nation":"Scotland","all":13,"kept":12,"actual":13,"b1":6,"b1p":5,"true":5},{"nation":"South Africa","all":7,"kept":6,"actual":7,"b1":9,"b1p":9,"true":11}],"programme_total_2022":280,"programme_dropped":70,"repo":"https://github.com/RidhimaGupta4/glasgow2026-forecast-postmortem"}</script>
+<script>
+(function(){
+const D = JSON.parse(document.getElementById('data').textContent);
+const NS = 'http://www.w3.org/2000/svg';
+const NAMES = {B0:'B0 all tied', B1:'B1 2022 carried forward', B1p:'B1p 2022, 2026 sports only', B2:'B2 population + GDP'};
+const SHORT = {B1:'B1', B1p:'B1p', B2:'B2'};
+const COLORS = {B1:'var(--series-1)', B1p:'var(--series-2)', B2:'var(--series-3)'};
+const f3 = x => (x<0?'−':'') + Math.abs(x).toFixed(3);
+const pct = x => Math.round(x*100) + '%';
+const byId = id => document.getElementById(id);
+const S = Object.fromEntries(D.scores.map(s => [s.id, s]));
+
+function el(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, x, y, s, attrs){
+  const t = el('text', Object.assign({x, y}, attrs||{}), parent); t.textContent = s; return t;
+}
+const tip = byId('tip');
+function showTip(html, ev){
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  if (x + w > innerWidth - 8) x = ev.clientX - w - pad;
+  if (y + h > innerHeight - 8) y = ev.clientY - h - pad;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+function hideTip(){ tip.style.opacity = 0; }
+function hover(node, html){
+  node.addEventListener('mousemove', ev => showTip(html(), ev));
+  node.addEventListener('mouseleave', hideTip);
+}
+
+/* ---------- tiles ---------- */
+const tiles = [
+  ['Best possible', f3(D.ceiling), D.tied_pairs + ' of ' + D.pairs.toLocaleString() + ' pairs tied'],
+  ['B1 2022 carried forward', f3(S.B1.tau), pct(S.B1.share) + ' of best possible'],
+  ['B2 population + GDP', f3(S.B2.tau), pct(S.B2.share) + ' of best possible'],
+  ['Nations without a medal', String(D.zero_medal), 'all tied at the bottom'],
+];
+byId('tiles').innerHTML = tiles.map(t =>
+  `<div class="tile"><div class="k">${t[0]}</div><div class="v">${t[1]}</div><div class="s">${t[2]}</div></div>`).join('');
+
+/* ---------- scoreboard ---------- */
+function drawScore(){
+  const host = byId('scoreboard'); host.innerHTML = '';
+  const narrow = host.clientWidth < 600;
+  const rows = D.scores.filter(s => s.id !== 'B0');
+  const W = Math.max(320, host.clientWidth), rowH = 50, top = 30, left = narrow ? 44 : 230, right = 56, H = top + rows.length*rowH + 40;
+  const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, width:W, height:H, role:'img', 'aria-label':'Scores with intervals'}, host);
+  const x = v => left + (v + 0.05) / 1.05 * (W - left - right);
+  (narrow ? [0, 0.5, 1.0] : [0, 0.2, 0.4, 0.6, 0.8, 1.0]).forEach(v => {
+    el('line', {x1:x(v), x2:x(v), y1:top-10, y2:H-34, class:'gridline'}, svg);
+    txt(svg, x(v), H-14, v.toFixed(1), {'text-anchor':'middle'});
+  });
+  el('line', {x1:x(D.ceiling), x2:x(D.ceiling), y1:top-14, y2:H-34, stroke:'var(--text-secondary)', 'stroke-dasharray':'5 4', 'stroke-width':1.5}, svg);
+  txt(svg, x(D.ceiling)-6, top-16, 'best possible ' + f3(D.ceiling), {'text-anchor':'end', 'font-size':12});
+  rows.forEach((s, i) => {
+    const y = top + i*rowH + rowH/2;
+    txt(svg, left-10, y+4, narrow ? SHORT[s.id] : NAMES[s.id], {'text-anchor':'end', class:'ink', 'font-size':13.5});
+    el('line', {x1:x(s.lo), x2:x(s.hi), y1:y, y2:y, stroke:'var(--series-1)', 'stroke-width':3, 'stroke-linecap':'round'}, svg);
+    el('circle', {cx:x(s.tau), cy:y, r:7, fill:'var(--series-1)', stroke:'var(--surface-1)', 'stroke-width':2}, svg);
+    if (narrow) txt(svg, x(s.tau), y-12, f3(s.tau), {class:'ink', 'font-size':12.5, 'text-anchor':'middle'});
+    else txt(svg, x(s.hi)+10, y+4, f3(s.tau), {class:'ink', 'font-size':13});
+    const hit = el('rect', {x:left, y:y-rowH/2, width:W-left-right, height:rowH, fill:'transparent'}, svg);
+    hover(hit, () => `<b>${NAMES[s.id]}</b><br>tau ${f3(s.tau)} <span class="m">[${f3(s.lo)}, ${f3(s.hi)}]</span>`+
+      `<br>${pct(s.share)} of the best possible<br><span class="m">${s.conc} pairs right, ${s.disc} wrong</span>`);
+  });
+}
+(function(){
+  byId('verdicts').innerHTML = D.diffs.map(d =>
+    `<div><b>${d.cmp.replace(' - ', ' vs ')}:</b> difference ${f3(d.d)}, 95% paired interval [${f3(d.lo)}, ${f3(d.hi)}] &rarr; <b>${d.verdict}</b></div>`).join('') +
+    `<div class="note">A forecast "beats" another only if the paired interval excludes zero. Intervals come from ${D.n_boot.toLocaleString()} bootstrap resamples of nations; they do not capture the luck of individual finals.</div>`;
+})();
+
+/* ---------- nation explorer ---------- */
+(function(){
+  let current = 'B1', query = '';
+  const seg = byId('natSeg');
+  ['B1','B1p','B2'].forEach(f => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = NAMES[f]; b.setAttribute('aria-pressed', f === current);
+    b.onclick = () => { current = f; [...seg.children].forEach(c => c.setAttribute('aria-pressed', c === b)); draw(); table(); };
+    seg.appendChild(b);
+  });
+  byId('natList').innerHTML = D.nations.map(n => `<option value="${n.nation}">`).join('');
+  byId('natSearch').addEventListener('input', e => { query = e.target.value.trim().toLowerCase(); draw(); });
+
+  const host = byId('scatter');
+  function draw(){
+    host.innerHTML = '';
+    const W = Math.max(320, host.clientWidth), H = Math.round(Math.min(520, Math.max(320, W*0.6))), m = {l:52, r:16, t:16, b:52};
+    const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, width:W, height:H, role:'img', 'aria-label':'Forecast rank versus final rank'}, host);
+    const maxR = 76;
+    const x = r => m.l + (r - 0.5) / maxR * (W - m.l - m.r);
+    const y = r => m.t + (r - 0.5) / 50 * (H - m.t - m.b);
+    (W < 600 ? [1, 20, 40, 60] : [1, 10, 20, 30, 40, 50, 60, 70]).forEach(v => {
+      el('line', {x1:x(v), x2:x(v), y1:m.t, y2:H-m.b, class:'gridline'}, svg);
+      txt(svg, x(v), H-m.b+18, v, {'text-anchor':'middle'});
+    });
+    [1, 10, 20, 30, 40, 46].forEach(v => {
+      el('line', {x1:m.l, x2:W-m.r, y1:y(v), y2:y(v), class:'gridline'}, svg);
+      txt(svg, m.l-10, y(v)+4, v, {'text-anchor':'end'});
+    });
+    el('line', {x1:x(1), y1:y(1), x2:x(50), y2:y(50), stroke:'var(--neutral)', 'stroke-width':1.5}, svg);
+    txt(svg, (m.l+W-m.r)/2, H-8, 'Forecast rank (1 = top)', {'text-anchor':'middle'});
+    txt(svg, 16, (m.t+H-m.b)/2, 'Final rank', {'text-anchor':'middle', transform:`rotate(-90 16 ${(m.t+H-m.b)/2})`});
+    const pts = D.nations.slice().sort((a,b) => (b[current+'_d']) - (a[current+'_d']));
+    pts.forEach(n => {
+      const hit = query && n.nation.toLowerCase().includes(query);
+      const dim = query && !hit;
+      const g = el('g', {}, svg);
+      el('circle', {cx:x(n[current]), cy:y(n.true), r: hit ? 8 : 5.5,
+        fill: hit ? 'var(--series-2)' : 'var(--series-1)', 'fill-opacity': dim ? 0.18 : 0.9,
+        stroke:'var(--surface-1)', 'stroke-width':1.5}, g);
+      if (hit) txt(g, x(n[current])+11, y(n.true)+4, n.nation, {class:'ink', 'font-size':13});
+      const target = el('circle', {cx:x(n[current]), cy:y(n.true), r:11, fill:'transparent'}, g);
+      hover(target, () => `<b>${n.nation}</b> <span class="m">(tier T${n.tier})</span><br>`+
+        `Medals: ${n.gold} G, ${n.silver} S, ${n.bronze} B<br>Final rank ${n.true}, forecast rank ${n[current]}<br>`+
+        `<span class="m">${n[current+'_c']} pairs right, ${n[current+'_d']} wrong (of 73)</span>`);
+    });
+  }
+  function table(){
+    const cols = [['nation','Nation'],['true','Final rank'],[current,'Forecast rank'],['gold','G'],['silver','S'],['bronze','B'],[current+'_c','Pairs right'],[current+'_d','Pairs wrong']];
+    let sortKey = 'true', asc = true;
+    const t = byId('natTable');
+    function render(){
+      const rows = D.nations.slice().sort((a,b) => {
+        const va = a[sortKey], vb = b[sortKey];
+        return (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * (asc ? 1 : -1);
+      });
+      t.innerHTML = '<thead><tr>' + cols.map(c => `<th scope="col" data-k="${c[0]}">${c[1]}${c[0]===sortKey ? (asc?' ▲':' ▼') : ''}</th>`).join('') + '</tr></thead>' +
+        '<tbody>' + rows.map(r => '<tr>' + cols.map(c => `<td>${r[c[0]]}</td>`).join('') + '</tr>').join('') + '</tbody>';
+      t.querySelectorAll('th').forEach(th => th.onclick = () => {
+        const k = th.dataset.k; asc = (k === sortKey) ? !asc : true; sortKey = k; render();
+      });
+    }
+    render();
+  }
+  draw(); table();
+  window.__redrawScatter = draw;
+})();
+
+/* ---------- tiers ---------- */
+byId('tierLegend').innerHTML = ['B1','B1p','B2'].map(f => `<span><i style="background:${COLORS[f]}"></i>${NAMES[f]}</span>`).join('');
+function drawTiers(){
+  const fs = ['B1','B1p','B2'];
+  const host = byId('tiers'); host.innerHTML = '';
+  const types = D.tiers.B1.map(r => r.pair_type.replace('T1 top-10 in 2022','T1').replace('T2 other 2022 medallists','T2').replace('T3 no 2022 medal','T3'));
+  const W = Math.max(300, host.clientWidth), groupH = 46, top = 6, left = 86, right = 24, H = top + types.length*groupH + 30;
+  const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, width:W, height:H, role:'img', 'aria-label':'Score lost by tier'}, host);
+  const maxV = Math.max(...fs.flatMap(f => D.tiers[f].map(r => r.lost)));
+  const x = v => left + v / (maxV*1.08) * (W - left - right);
+  [0, 0.05, 0.10, 0.15].filter(v => v <= maxV*1.08).forEach(v => {
+    el('line', {x1:x(v), x2:x(v), y1:top, y2:H-26, class:'gridline'}, svg);
+    txt(svg, x(v), H-10, v.toFixed(2), {'text-anchor':'middle', 'font-size':11});
+  });
+  types.forEach((t, i) => {
+    const y0 = top + i*groupH;
+    txt(svg, left-8, y0 + groupH/2 + 4, t, {'text-anchor':'end', class:'ink', 'font-size':12.5});
+    fs.forEach((f, j) => {
+      const r = D.tiers[f][i], bh = 11, y = y0 + 6 + j*(bh+2);
+      const w = Math.max(x(r.lost) - left, 1.5);
+      el('rect', {x:left, y, width:w, height:bh, rx:3, fill:COLORS[f]}, svg);
+      const hit = el('rect', {x:left, y:y-1, width:W-left-right, height:bh+2, fill:'transparent'}, svg);
+      hover(hit, () => `<b>${t}</b> &middot; ${NAMES[f]}<br>${r.pairs} pairs, ${pct(r.tied)} tied in final table<br>`+
+        `tau within ${f3(r.tau_within)}<br>score lost ${r.lost.toFixed(3)}`);
+    });
+  });
+}
+
+/* ---------- history ---------- */
+function drawHistory(){
+  const host = byId('history'); host.innerHTML = '';
+  const W = Math.max(300, host.clientWidth), H = 290, m = {l:40, r:12, t:16, b:40};
+  const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, width:W, height:H, role:'img', 'aria-label':'Carry-forward score by cycle'}, host);
+  const n = D.history.length, slot = (W - m.l - m.r) / n;
+  const y = v => m.t + (1 - v) * (H - m.t - m.b);
+  [0, 0.2, 0.4, 0.6, 0.8, 1.0].forEach(v => {
+    el('line', {x1:m.l, x2:W-m.r, y1:y(v), y2:y(v), class:'gridline'}, svg);
+    txt(svg, m.l-8, y(v)+4, v.toFixed(1), {'text-anchor':'end', 'font-size':11});
+  });
+  D.history.forEach((h, i) => {
+    const cx = m.l + slot*i + slot/2, bw = slot*0.46;
+    el('rect', {x:cx-bw/2, y:y(h.tau), width:bw, height:y(0)-y(h.tau), rx:4, fill:'var(--series-1)'}, svg);
+    el('line', {x1:cx-bw/2-6, x2:cx+bw/2+6, y1:y(h.ceiling), y2:y(h.ceiling), stroke:'var(--text-primary)', 'stroke-width':2.5}, svg);
+    txt(svg, cx, y(h.tau)-8, f3(h.tau), {'text-anchor':'middle', class:'ink', 'font-size':12.5});
+    txt(svg, cx, H-14, (h.target-4) + ' → ' + h.target, {'text-anchor':'middle', 'font-size':12});
+    const hit = el('rect', {x:cx-slot/2, y:m.t, width:slot, height:H-m.t-m.b, fill:'transparent'}, svg);
+    hover(hit, () => `<b>${h.target-4} table &rarr; ${h.target}</b><br>tau ${f3(h.tau)}<br>best possible ${f3(h.ceiling)}<br>${(100*h.tau/h.ceiling).toFixed(1)}% of best possible`);
+  });
+}
+
+/* ---------- programme ---------- */
+byId('progLede').textContent = `Of the ${D.programme_total_2022} golds won in 2022, ${D.programme_dropped} came in sports not held in 2026. ` +
+    `Counting only the kept sports (B1p) did not beat the full 2022 table (B1). It fixed some nations and broke others.`;
+function drawProgramme(){
+  const host = byId('programme'); host.innerHTML = '';
+  const rows = D.programme, W = Math.max(320, host.clientWidth), rowH = 30, left = 104, right = 16, top = 10, H = top + rows.length*rowH + 34;
+  const svg = el('svg', {viewBox:`0 0 ${W} ${H}`, width:W, height:H, role:'img', 'aria-label':'2022 golds in kept and dropped sports'}, host);
+  const sx = v => v <= 5 ? v/5*0.25 : 0.25 + Math.log(v/5)/Math.log(80/5)*0.75;
+  const x = v => left + sx(v) * (W - left - right);
+  [0, 2, 5, 10, 20, 40, 70].forEach(v => {
+    el('line', {x1:x(v), x2:x(v), y1:top, y2:H-30, class:'gridline'}, svg);
+    txt(svg, x(v), H-12, v, {'text-anchor':'middle', 'font-size':11});
+  });
+  rows.forEach((r, i) => {
+    const y = top + i*rowH + rowH/2;
+    txt(svg, left-10, y+4, r.nation, {'text-anchor':'end', class:'ink', 'font-size':13});
+    el('line', {x1:x(r.kept), x2:x(r.all), y1:y, y2:y, stroke:'var(--border)', 'stroke-width':4, 'stroke-linecap':'round'}, svg);
+    el('circle', {cx:x(r.all), cy:y, r:6.5, fill:'var(--neutral)'}, svg);
+    el('circle', {cx:x(r.kept), cy:y, r:6.5, fill:'var(--series-1)', stroke:'var(--surface-1)', 'stroke-width':1.5}, svg);
+    el('rect', {x:x(r.actual)-5, y:y-5, width:10, height:10, transform:`rotate(45 ${x(r.actual)} ${y})`, fill:'var(--series-2)', stroke:'var(--surface-1)', 'stroke-width':1.5}, svg);
+    const hit = el('rect', {x:0, y:y-rowH/2, width:W, height:rowH, fill:'transparent'}, svg);
+    hover(hit, () => `<b>${r.nation}</b><br>2022 golds: ${r.all} (${r.kept} in sports kept for 2026)<br>2026 golds: ${r.actual}<br>`+
+      `<span class="m">Rank: B1 ${r.b1}, B1p ${r.b1p}, final ${r.true}</span>`);
+  });
+}
+function drawAll(){ drawScore(); window.__redrawScatter(); drawTiers(); drawHistory(); drawProgramme(); }
+drawAll();
+let lastW = innerWidth, timer = null;
+addEventListener('resize', () => { if (innerWidth === lastW) return; lastW = innerWidth; clearTimeout(timer); timer = setTimeout(drawAll, 120); });
+
+/* ---------- method ---------- */
+const R = D.repo + '/blob/main/';
+byId('method').innerHTML = [
+  `<b>Two-stage code.</b> Forecasts are built from data that never contains the 2026 results; a test rebuilds them with the results file deleted and checks they are identical.`,
+  `<b>Point-in-time features.</b> Population and GDP come from CIA World Factbook snapshots pinned by git commit. The 2026 snapshot is dated 17 May 2026, before the deadline.`,
+  `<b>No tuning on 2026.</b> The baselines have no free parameters; the population + GDP model is trained on 2018 and 2022 only.`,
+  `<b>The competition's exact metric.</b> Tied pairs score zero and stay in the denominator, so the best possible score is ${f3(D.ceiling)}, not 1.`,
+  `<b>Plan committed before scoring.</b> Later changes are logged with their reasons; none changes a score or verdict.`,
+  `Details: <a href="${R}LEAKAGE_AUDIT.md">leakage audit</a> &middot; <a href="${R}ANALYSIS_PLAN.md">analysis plan</a> &middot; <a href="${R}REPORT.md">full report</a> &middot; <a href="${R}DATA_SOURCES.md">data sources</a>`
+].map(s => `<li>${s}</li>`).join('');
+byId('footer').innerHTML = `Built by Ridhima Gupta &middot; <a href="${D.repo}">Source code and data on GitHub</a> &middot; every number on this page is generated from the repository's results by code.`;
+})();
+</script>
+</body>
+</html>

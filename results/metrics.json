@@ -4,7 +4,6 @@
   "tau_ceiling": 0.8282117734172528,
   "pairs_tied_in_truth": 464,
   "zero_medal_nations": 29,
-  "original_supplied": false,
   "n_boot": 10000,
   "seed_boot": 20260722,
   "n_perm": 10000,

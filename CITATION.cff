@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "Glasgow 2026 Commonwealth Games medal-table forecast: a leakage-free post-mortem"
+title: "How predictable was the Glasgow 2026 Commonwealth Games medal table? A leakage-free benchmark"
 authors:
   - family-names: Gupta
     given-names: Ridhima

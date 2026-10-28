@@ -22,7 +22,6 @@ from .data import complete_table, load_outcome_2026, load_pre_games
 from .decompose import biggest_misses, host_shares, programme_effect, tier_breakdown, tiers_from_2022
 from .ranking import rank_from_table
 from .scoring import competition_tau, concordance_matrix, pair_counts, tau_b, tau_ceiling
-from .submission import load_submission
 
 N_BOOT = 10_000
 N_PERM = 10_000
@@ -30,14 +29,13 @@ SEED_BOOT = 20260722
 SEED_PERM = 20260723
 
 LABELS = {
-    "original": "Original submission (pre-registered)",
     "B0": "B0 default entry (all tied)",
     "B1": "B1 Birmingham 2022 carried forward",
     "B1p": "B1p 2022, 2026-programme sports only",
     "B2": "B2 population + GDP model",
 }
 
-PRIMARY_DIFFS = [("original", "B1"), ("original", "B2"), ("original", "B1p"), ("B1p", "B1"), ("B1", "B2"), ("B1p", "B2")]
+PRIMARY_DIFFS = [("B1p", "B1"), ("B1", "B2"), ("B1p", "B2")]
 
 
 def build_forecasts(data_dir: Path) -> tuple[dict[str, pd.Series], dict]:
@@ -50,9 +48,6 @@ def build_forecasts(data_dir: Path) -> tuple[dict[str, pd.Series], dict]:
     forecasts["B1p"] = b1p
     fit = baselines.population_gdp_model(pre)
     forecasts["B2"] = fit.ranks
-    sub_path = Path(data_dir) / "forecast/original_submission.csv"
-    if sub_path.exists():
-        forecasts = {"original": load_submission(sub_path, pre.nations, Path(data_dir) / "forecast/name_aliases.csv"), **forecasts}
     extras = {"pre": pre, "b2_fit": fit, "b1p_table": filtered_table}
     return forecasts, extras
 
@@ -80,7 +75,8 @@ def historical_carry_forward(pre) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def run(data_dir: Path, out_dir: Path, make_figures: bool = True, make_report: bool = True) -> dict:
+def run(data_dir: Path, out_dir: Path, make_figures: bool = True, make_report: bool = True,
+        make_dashboard: bool = True) -> dict:
     data_dir, out_dir = Path(data_dir), Path(out_dir)
     tables_dir = out_dir / "tables"
     tables_dir.mkdir(parents=True, exist_ok=True)
@@ -183,7 +179,6 @@ def run(data_dir: Path, out_dir: Path, make_figures: bool = True, make_report: b
         "tau_ceiling": ceiling,
         "pairs_tied_in_truth": int(pair_counts(truth, truth)["tied_in_truth"]),
         "zero_medal_nations": int((outcome[["gold", "silver", "bronze"]].sum(axis=1) == 0).sum()),
-        "original_supplied": "original" in forecasts,
         "n_boot": N_BOOT, "seed_boot": SEED_BOOT, "n_perm": N_PERM, "seed_perm": SEED_PERM,
         "b2_training_rows": int(len(fit.training_rows)),
         "b2_pearson_dispersion": fit.pearson_dispersion,
@@ -207,6 +202,9 @@ def run(data_dir: Path, out_dir: Path, make_figures: bool = True, make_report: b
     if make_report:
         from .report import write_report
         write_report(Path(__file__).resolve().parents[2], metrics, out_dir)
+    if make_dashboard:
+        from .dashboard import write_dashboard
+        write_dashboard(Path(__file__).resolve().parents[2], metrics, out_dir)
     return metrics
 
 
@@ -216,8 +214,10 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=Path("results"))
     ap.add_argument("--no-figures", action="store_true")
     ap.add_argument("--no-report", action="store_true")
+    ap.add_argument("--no-dashboard", action="store_true")
     a = ap.parse_args()
-    m = run(a.data, a.out, make_figures=not a.no_figures, make_report=not a.no_report)
+    m = run(a.data, a.out, make_figures=not a.no_figures, make_report=not a.no_report,
+            make_dashboard=not a.no_dashboard)
     s = pd.DataFrame(m["scores"]).T
     print(s[["tau", "ci95_low", "ci95_high", "share_of_ceiling", "permutation_p"]].round(3).to_string())
     print(f"ceiling: {m['tau_ceiling']:.3f}")

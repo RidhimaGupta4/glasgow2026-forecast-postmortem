@@ -4,7 +4,4 @@ __pycache__/
 *.egg-info/
 .venv/
 .DS_Store
-# The original submission is added deliberately with `git add -f` once you have it,
-# so a stray file can never be committed by accident.
-data/forecast/original_submission.csv
 .cache/

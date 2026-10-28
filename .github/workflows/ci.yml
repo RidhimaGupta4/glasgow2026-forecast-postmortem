@@ -15,4 +15,4 @@ jobs:
       - name: Results reproduce exactly
         run: |
           make results
-          git diff --exit-code -- results/tables results/metrics.json REPORT.md
+          git diff --exit-code -- results/tables results/metrics.json REPORT.md docs/index.html

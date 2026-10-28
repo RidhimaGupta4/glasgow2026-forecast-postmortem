@@ -25,7 +25,7 @@ GRID = "#e4e3df"
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a"]  # blue, orange, aqua
 NEUTRAL = "#9a9893"
 
-SHORT = {"original": "Original", "B1": "B1 2022 carried forward", "B1p": "B1p 2022, 2026 sports only",
+SHORT = {"B1": "B1 2022 carried forward", "B1p": "B1p 2022, 2026 sports only",
          "B2": "B2 population + GDP", "B0": "B0 all tied"}
 
 
@@ -89,7 +89,7 @@ def fig_rank_scatter(ranks: pd.DataFrame, misses: dict, forecasts: list[str], pa
 
 
 def fig_score_lost(tier_tables: dict, path: Path):
-    fs = [f for f in ["original", "B1", "B1p", "B2"] if f in tier_tables][:3]
+    fs = [f for f in ["B1", "B1p", "B2"] if f in tier_tables]
     types = tier_tables[fs[0]]["pair_type"].tolist()
     short_types = [t.replace("T1 top-10 in 2022", "T1").replace("T2 other 2022 medallists", "T2")
                    .replace("T3 no 2022 medal", "T3") for t in types]

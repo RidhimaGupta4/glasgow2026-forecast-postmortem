@@ -1,15 +1,12 @@
 """End-to-end checks: the committed results reproduce, the report has no
-unfilled fields, and the optional original-submission slot works."""
+unfilled fields, and the README matches the results."""
 
-import shutil
 from pathlib import Path
 
 import pandas as pd
 import pytest
 
-from cgpm.data import load_outcome_2026, load_pre_games
 from cgpm.pipeline import run
-from cgpm.ranking import rank_from_table
 from cgpm.report import write_report
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,7 +16,7 @@ DATA = ROOT / "data"
 @pytest.fixture(scope="module")
 def fresh(tmp_path_factory):
     out = tmp_path_factory.mktemp("results")
-    metrics = run(DATA, out, make_figures=False, make_report=False)
+    metrics = run(DATA, out, make_figures=False, make_report=False, make_dashboard=False)
     return out, metrics
 
 
@@ -38,26 +35,9 @@ def test_report_has_no_unfilled_fields(fresh, tmp_path):
     out, metrics = fresh
     path = write_report(tmp_path, metrics, out)
     text = path.read_text()
-    body = text.split("## 8. Reproduce")[0]
+    body = text.split("## 7. Reproduce")[0]
     assert "{" not in body and "}" not in body
     assert "nan" not in body.lower().replace("financ", "")
-
-
-def test_original_slot_scores_a_supplied_file(tmp_path):
-    """A test-only file equal to the truth must score exactly the ceiling.
-
-    This fixture is built from the 2026 results purely to exercise the code
-    path. It is never written to the real data directory.
-    """
-    shutil.copytree(DATA, tmp_path / "data")
-    pre = load_pre_games(tmp_path / "data")
-    truth = rank_from_table(load_outcome_2026(tmp_path / "data", pre.nations))
-    pd.DataFrame({"Country": truth.index, "Rank": truth.to_numpy()}).to_csv(
-        tmp_path / "data/forecast/original_submission.csv", index=False)
-    m = run(tmp_path / "data", tmp_path / "results", make_figures=False, make_report=False)
-    assert m["original_supplied"]
-    assert m["scores"]["original"]["tau"] == pytest.approx(m["tau_ceiling"])
-    assert "original - B1" in m["differences"]
 
 
 def test_readme_numbers_match_results(fresh):
