@@ -1,8 +1,26 @@
+<div align="center">
+
 # How predictable was the Glasgow 2026 medal table?
 
-[![tests](https://github.com/RidhimaGupta4/glasgow2026-forecast-postmortem/actions/workflows/ci.yml/badge.svg)](https://github.com/RidhimaGupta4/glasgow2026-forecast-postmortem/actions/workflows/ci.yml)
+**A leakage-free benchmark of Commonwealth Games medal-table forecasts, scored with the RSS competition's exact Kendall's tau**
 
-**[Open the interactive dashboard](https://ridhimagupta4.github.io/glasgow2026-forecast-postmortem/)** · [Full report](REPORT.md) · [Leakage audit](LEAKAGE_AUDIT.md)
+<br>
+
+<a href="https://ridhimagupta4.github.io/glasgow2026-forecast-postmortem/"><img src="https://img.shields.io/badge/%E2%96%B6%20Interactive%20dashboard-Open-2a78d6?style=for-the-badge" alt="Open the interactive dashboard" height="36"></a>&nbsp;
+<a href="REPORT.md"><img src="https://img.shields.io/badge/%F0%9F%93%84%20Full%20report-Read-1baf7a?style=for-the-badge" alt="Read the full report" height="36"></a>&nbsp;
+<a href="LEAKAGE_AUDIT.md"><img src="https://img.shields.io/badge/%F0%9F%94%92%20Leakage%20audit-View-eb6834?style=for-the-badge" alt="View the leakage audit" height="36"></a>&nbsp;
+<a href="ANALYSIS_PLAN.md"><img src="https://img.shields.io/badge/%F0%9F%93%8B%20Analysis%20plan-View-6250d6?style=for-the-badge" alt="View the analysis plan" height="36"></a>
+
+<br><br>
+
+<img src="https://img.shields.io/badge/python-3.13-3776ab?logo=python&logoColor=white" alt="Python 3.13">
+<img src="https://img.shields.io/badge/tests-42-2ea44f" alt="42 tests">
+<img src="https://img.shields.io/badge/data-point--in--time-555555" alt="Point-in-time data">
+<img src="https://img.shields.io/badge/licence-MIT-blue" alt="MIT licence">
+
+</div>
+
+---
 
 The Royal Statistical Society's 2026 prediction competition asked entrants to rank all 74 nations in the Glasgow 2026 Commonwealth Games medal table before the Games began. This project asks how much of that table was predictable from public information, and where the predictable part ran out. It scores simple forecasts with the competition's exact rules and metric.
 
